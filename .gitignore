@@ -1,0 +1,26 @@
+# Dependency directories
+node_modules
+packages/*/node_modules/
+
+# Built output
+.nuxt
+.output
+dist
+build
+.nitro
+.cache
+.env
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.log*
+
+# lock
+yarn.lock
+
+# Miscellaneous files
+.DS_Store
+Thumbs.db
