@@ -5,13 +5,20 @@ const navigateTo = (path: string) => router.push(path)
 </script>
 
 <template>
-  <header flex items-center justify-between bg-gray-100 p-4>
+  <header class="flex items-center justify-between bg-gray-100 p-4">
     <el-avatar
       :size="60"
       shape="square"
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/500px-LEGO_logo.svg.png?20221012140704"
+      @click="navigateTo('/')"
     />
     <span class="py-2 bg-black"> items </span>
+
+    <span
+      class="px-4 py-2 bg-red-400 cursor-pointer"
+      @click="navigateTo('/users')"
+      >users</span
+    >
 
     <div>
       <button

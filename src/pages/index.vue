@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import { authService } from '../services/auth.service'
-
-// definePageMeta({
-//   middleware: ['auth'],
-// })
-const { data, pending, error } = await authService.refreshToken('asdf')
 </script>
 
 <template>

@@ -4,16 +4,22 @@ export default defineNuxtConfig({
 
   // imports
   imports: {
-    dirs: ['stores/**/*'],
+    dirs: ['stores/**'],
+  },
+  alias: {
+    '@types': '/<rootDir>/types',
   },
 
   // build modules
   modules: [
+    'nuxt-typed-router',
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@element-plus/nuxt',
   ],
+
+  ssr: false,
 
   // runtime config
   runtimeConfig: {
