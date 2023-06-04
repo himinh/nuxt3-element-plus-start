@@ -1,4 +1,4 @@
-export type EndPoint = {
+export type EndpointGroup = {
   method: string
   path: string
   createdAt: string

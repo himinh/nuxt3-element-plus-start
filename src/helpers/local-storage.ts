@@ -1,4 +1,4 @@
-import { AuthUser } from '~types/auth.type'
+import { AuthUser } from '~/types/auth'
 
 export const localStorageKey = {
   auth: 'auth',

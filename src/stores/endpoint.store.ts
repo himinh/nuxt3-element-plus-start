@@ -1,5 +1,5 @@
-import { endpointService } from '../../services/endpoint.service'
-import { EndPoint } from '../types/endpoint.type'
+import { Endpoint } from '../types/endpoint'
+import { endpointApi } from '~/api/endpoint.api'
 
 export const useEndpointStore = defineStore('endpoint', () => {
   const limit = ref<number>(10)
@@ -7,7 +7,7 @@ export const useEndpointStore = defineStore('endpoint', () => {
   const sort = ref<string>('-createdAt')
   const populate = ref<string>('')
   const fields = ref<string>('')
-  const endpoints = ref<EndPoint[] | null>(null)
+  const endpoints = ref<Endpoint[] | null>(null)
   const pageInfo = ref<{
     hasNextPage: boolean
     hasPrevPage: boolean
@@ -22,7 +22,7 @@ export const useEndpointStore = defineStore('endpoint', () => {
 
   const { data, pending } = useAsyncData(
     () =>
-      endpointService.paginate({
+      endpointApi.paginate({
         _limit: limit.value,
         _page: page.value,
         _populate: populate.value,

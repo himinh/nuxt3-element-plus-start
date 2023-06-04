@@ -1,5 +1,5 @@
 import { fetchInstance } from './fetch-instance'
-import { FetchOptions, QueryParams } from '~types/fetch.type'
+import { FetchOptions, QueryParams } from '~/types/fetch'
 
 export const client = {
   // HTTP method GET

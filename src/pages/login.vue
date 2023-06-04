@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { AuthType } from '~enums/auth-type'
-import { Login } from '~types/auth.type'
+import { AuthType } from '~/enums/auth-type'
+import { Login } from '~/types/auth'
 
 const authStore = useAuthStore()
 const formData = reactive<Login>({
@@ -20,22 +20,33 @@ const handleLogin = () => {
       <label class="block text-gray-700 font-bold mb-2" for="email">
         Email
       </label>
-      <input id="email" v-model="formData.authKey"
+      <input
+        id="email"
+        v-model="formData.authKey"
         class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-red-500"
-        type="email" placeholder="Email" />
+        type="email"
+        placeholder="Email"
+      />
     </div>
     <div class="mb-6">
       <label class="block text-gray-700 font-bold mb-2" for="password">
         Mật khẩu
       </label>
-      <input id="password" v-model="formData.password"
+      <input
+        id="password"
+        v-model="formData.password"
         class="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline border-red-500"
-        type="password" placeholder="Mật khẩu" />
+        type="password"
+        placeholder="Mật khẩu"
+      />
       <p class="text-red-500 text-xs italic">Vui lòng nhập mật khẩu.</p>
     </div>
     <div class="flex items-center justify-between">
       <el-button @click="handleLogin"> Đăng nhập </el-button>
-      <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+      <a
+        class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+        href="#"
+      >
         Quên mật khẩu?
       </a>
     </div>

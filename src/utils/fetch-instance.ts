@@ -1,21 +1,17 @@
-import { FetchInstanceOptions } from '../types/fetch.type'
+import { getAccessToken } from '~/helpers/get-access-token'
+import { FetchInstanceOptions } from '~/types/fetch'
 
 export const fetchInstance = <DataT>(
   endpoint: string,
-  fetchOptions?: FetchInstanceOptions
+  opts?: FetchInstanceOptions
 ) => {
-  const { isAuth = false, ...opts } = fetchOptions || {}
-
   // Check and add access token to header
   const onRequest = async ({ options }: any) => {
-    if (isAuth) {
-      const { getAcToken } = useAuthStore()
-      const token = await getAcToken()
+    const token = await getAccessToken()
 
-      options.headers = {
-        ...options.headers,
-        authorization: `Bearer ${token}`,
-      }
+    options.headers = {
+      ...options.headers,
+      authorization: `Bearer ${token}`,
     }
   }
 

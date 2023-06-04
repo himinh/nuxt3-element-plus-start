@@ -26,7 +26,6 @@ export type FetchOptions = {
     | 'origin-when-cross-origin'
     | 'unsafe-url'
   integrity?: string
-  isAuth?: boolean
   baseURL?: string
 }
 

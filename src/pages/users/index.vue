@@ -22,7 +22,12 @@ const handleDeleteUser = (id: string) => {
       <el-table-column prop="name" label="Name" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click.prevent="handleDeleteUser(scope.row.id)">
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click.prevent="handleDeleteUser(scope.row.id)"
+          >
             Remove
           </el-button>
         </template>

@@ -5,41 +5,28 @@ const endpointStore = useEndpointStore()
 
 const { data, limit, page, sort, pending } = storeToRefs(endpointStore)
 
+const handleClick = () => {}
 
+const handleSizeChange = (size: any) => {}
 
-const handleClick = () => {
-  console.log('click')
-}
-
-const handleSizeChange = (size: any) => {
-  console.log({ size })
-}
-
-
-const handleCurrentChange = (size: any) => {
-  console.log({ size })
-}
+const handleCurrentChange = (size: any) => {}
 
 const addNew = () => {
-
   const item = {
-    _id: "6455461b949d74031662dd2b",
-    method: "DELETE",
-    path: "/api/tokens/:ids/ids",
-    createdAt: "2023-05-05T18:08:21.899Z",
-    description: "",
+    _id: '6455461b949d74031662dd2b',
+    method: 'DELETE',
+    path: '/api/tokens/:ids/ids',
+    createdAt: '2023-05-05T18:08:21.899Z',
+    description: '',
     isPublic: false,
-    name: "new a",
+    name: 'new a',
     position: 1,
-    updatedAt: "2023-05-28T05:12:45.244Z",
-    userRoles: ["SUPER_ADMIN"],
+    updatedAt: '2023-05-28T05:12:45.244Z',
+    userRoles: ['SUPER_ADMIN'],
   }
 
   endpointStore.create(item)
-
-  console.log({ "d": " add" })
 }
-
 </script>
 
 <template>
@@ -52,14 +39,22 @@ const addNew = () => {
       <el-table-column prop="path" label="Path" width="120" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default>
-          <el-button link type="primary" size="small" @click="handleClick">Detail</el-button>
+          <el-button link type="primary" size="small" @click="handleClick"
+            >Detail</el-button
+          >
           <el-button link type="primary" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination v-model:current-page="page" v-model:page-size="limit" :page-sizes="[5, 10, 15]"
-      layout="total, sizes, prev, pager, next, jumper" :total="data?.pageInfo.totalData" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" />
+    <el-pagination
+      v-model:current-page="page"
+      v-model:page-size="limit"
+      :page-sizes="[5, 10, 15]"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="data?.pageInfo.totalData"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { AuthType } from '../enums/auth-type'
-import { authService } from '../services/auth.service'
+import { authApi } from '../api/auth.api'
 
 const { count, dec, inc } = useCount()
-// const {data, pending, error} =  await useAsyncData('data', () => authService.login({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'}))
+// const {data, pending, error} =  await useAsyncData('data', () => authApi.login({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'}))
 // const {data, pending,error } =  await useFetch('https://api.nuxtjs.dev/mountains?param1=value1&param2=value2', {
 
 // })
 
-// const {data, pending, error} = await authService.register({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'})
+// const {data, pending, error} = await authApi.register({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'})
 
 // console.log({data,pending, error})
 
@@ -16,7 +16,7 @@ const { count, dec, inc } = useCount()
 //  }
 
 //  const loadLazy =async () => {
-//   await authService.register({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'})
+//   await authApi.register({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'})
 // }
 </script>
 

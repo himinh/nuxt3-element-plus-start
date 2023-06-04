@@ -1,6 +1,6 @@
 import { localStorageHelper } from '../helpers/local-storage'
-import { authService } from '../../services/auth.service'
-import { AuthUser, Login, Register } from '~types/auth.type'
+import { AuthUser, Login, Register } from '../types/auth'
+import { authApi } from '~/api/auth.api'
 
 export const useAuthStore = defineStore('auth', () => {
   const authUser = ref<AuthUser | null>(null)
@@ -19,9 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
    * @param inputs
    */
   const login = (inputs: Login) => {
-    const { data, error, pending } = useAsyncData(() =>
-      authService.login(inputs)
-    )
+    const { data, error, pending } = useAsyncData(() => authApi.login(inputs))
 
     signState.value = { error, pending }
     authUser.value = data.value
@@ -36,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   const register = (inputs: Register) => {
     const { data, error, pending } = useAsyncData(() =>
-      authService.register(inputs)
+      authApi.register(inputs)
     )
 
     signState.value = { error, pending }
@@ -52,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
    * @param inputs
    */
   const signOut = () => {
-    useAsyncData(() => authService.logout())
+    useAsyncData(() => authApi.logout())
 
     authUser.value = null
 
@@ -90,7 +88,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (refreshToken.iat > new Date().getTime()) {
       try {
-        const data = await authService.refreshToken(refreshToken.token)
+        const data = await authApi.refreshToken(refreshToken.token)
 
         authUser.value = { ...authUser.value, ...data }
         localStorageHelper.setAuth(authUser.value)

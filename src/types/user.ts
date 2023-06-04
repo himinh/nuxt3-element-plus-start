@@ -1,6 +1,6 @@
-import { AuthType } from '~enums/auth-type'
-import { Gender } from '~enums/gender'
-import { Role } from '~enums/role'
+import { AuthType } from '~/enums/auth-type'
+import { Gender } from '~/enums/gender'
+import { Role } from '~/enums/role'
 
 export type User = {
   email?: string
