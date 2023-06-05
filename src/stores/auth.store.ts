@@ -1,77 +1,81 @@
-import { localStorageHelper } from '../helpers/local-storage'
-import { AuthUser, Login, Register } from '../types/auth'
+import { localStorageHelper } from '~/helpers/local-storage'
+import { AuthUser, Login, Register } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser = ref<AuthUser | null>(null)
-  const signState = ref({
+  const authUser = ref<AuthUser | null>(localStorageHelper.getAuth())
+
+  const route = useRoute()
+
+  const loginState = ref({
     pending: ref(),
     error: ref(),
   })
+
   const registerState = ref({
     pending: ref(),
     error: ref(),
   })
 
-  /**
-   * Sign in
-   *
-   * @param inputs
-   */
-  const login = (inputs: Login) => {
-    const { data, error, pending } = useAsyncData(() => authApi.login(inputs))
+  const login = async (inputs: Login) => {
+    const { data, error, pending } = await useAsyncData(() =>
+      authApi.login(inputs)
+    )
 
-    signState.value = { error, pending }
+    loginState.value.pending = pending
+
+    if (error.value) {
+      loginState.value.error = error
+      return
+    }
+
+    ElNotification({
+      message: 'Login success!',
+      type: 'success',
+    })
+
     authUser.value = data.value
+
     // save to local storage
     localStorageHelper.setAuth(authUser.value!)
+
+    // @ts-ignore
+    navigateTo(`/${(route.query.from as string) || ''}`, { replace: true })
   }
 
-  /**
-   * Sign up
-   *
-   * @param inputs
-   */
   const register = (inputs: Register) => {
     const { data, error, pending } = useAsyncData(() =>
       authApi.register(inputs)
     )
 
-    signState.value = { error, pending }
+    loginState.value = { error, pending }
     authUser.value = data.value
 
     // save to local storage
     localStorageHelper.setAuth(authUser.value!)
   }
 
-  /**
-   * Sign out
-   *
-   * @param inputs
-   */
-  const signOut = () => {
-    useAsyncData(() => authApi.logout())
-
-    authUser.value = null
+  const logout = async () => {
+    await useAsyncData(() => authApi.logout())
 
     // save to local storage
     localStorageHelper.deleteAuth()
+
+    ElNotification({
+      message: 'Logout success!',
+      type: 'success',
+    })
+
+    authUser.value = null
+    navigateTo('/auth/login')
   }
 
-  /**
-   * Refresh token from local storage
-   */
   const refreshTokenFromLocalStorage = () => {
     const authLocalStorage = localStorageHelper.getAuth()
 
     authUser.value = authLocalStorage
   }
 
-  /**
-   * Get access token
-   *
-   * @returns
-   */
   const getAcToken = async () => {
     refreshTokenFromLocalStorage()
 
@@ -105,11 +109,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     authUser,
-    signState,
+    loginState,
     registerState,
     login,
     register,
-    signOut,
+    logout,
     getAcToken,
   }
 })

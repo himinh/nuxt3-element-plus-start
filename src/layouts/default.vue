@@ -1,6 +1,9 @@
 <template>
-  <div container mx-auto>
+  <div>
     <Header />
-    <slot />
+
+    <div class="mt-[150px]">
+      <slot />
+    </div>
   </div>
 </template>

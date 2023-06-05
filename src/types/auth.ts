@@ -1,8 +1,8 @@
 import { User } from './user'
 
-export type Login = Pick<User, 'authType'> & {
+export type Login = {
   password: string
-  authKey: string
+  email: string
 }
 
 export type Register = Login & Pick<User, 'fullName' | 'dateOfBirth' | 'gender'>
