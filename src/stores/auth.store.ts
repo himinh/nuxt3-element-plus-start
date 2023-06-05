@@ -3,23 +3,22 @@ import { AuthUser, Login, Register } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser = ref<AuthUser | null>(localStorageHelper.getAuth())
-
+  const authUser = ref<AuthUser | null>(
+    localStorageHelper.getAuth()
+  )
   const route = useRoute()
-
   const loginState = ref({
     pending: ref(),
     error: ref(),
   })
-
   const registerState = ref({
     pending: ref(),
     error: ref(),
   })
 
   const login = async (inputs: Login) => {
-    const { data, error, pending } = await useAsyncData(() =>
-      authApi.login(inputs)
+    const { data, error, pending } = await useAsyncData(
+      () => authApi.login(inputs)
     )
 
     loginState.value.pending = pending
@@ -32,6 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
     ElNotification({
       message: 'Login success!',
       type: 'success',
+      position: 'bottom-right',
     })
 
     authUser.value = data.value
@@ -40,7 +40,9 @@ export const useAuthStore = defineStore('auth', () => {
     localStorageHelper.setAuth(authUser.value!)
 
     // @ts-ignore
-    navigateTo(`/${(route.query.from as string) || ''}`, { replace: true })
+    navigateTo(`/${(route.query.from as string) || ''}`, {
+      replace: true,
+    })
   }
 
   const register = (inputs: Register) => {
@@ -64,6 +66,7 @@ export const useAuthStore = defineStore('auth', () => {
     ElNotification({
       message: 'Logout success!',
       type: 'success',
+      position: 'bottom-right',
     })
 
     authUser.value = null
@@ -92,7 +95,9 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (refreshToken.iat > new Date().getTime()) {
       try {
-        const data = await authApi.refreshToken(refreshToken.token)
+        const data = await authApi.refreshToken(
+          refreshToken.token
+        )
 
         authUser.value = { ...authUser.value, ...data }
         localStorageHelper.setAuth(authUser.value)

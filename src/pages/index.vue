@@ -9,13 +9,34 @@ const handleDeleteUser = (id: string) => {
 
 <template>
   <div v-if="data">
-    <el-table v-loading="pending" :data="data" style="width: 100%">
-      <el-table-column prop="email" label="Email" width="180" />
-      <el-table-column prop="phone" label="Pone" width="180" />
+    <el-table
+      v-loading="pending"
+      :data="data"
+      style="width: 100%"
+    >
+      <el-table-column
+        prop="email"
+        label="Email"
+        width="180"
+      />
+      <el-table-column
+        prop="phone"
+        label="Pone"
+        width="180"
+      />
       <el-table-column prop="name" label="Name" />
-      <el-table-column fixed="right" label="Operations" width="120">
+      <el-table-column
+        fixed="right"
+        label="Operations"
+        width="120"
+      >
         <template #default="scope">
-          <el-button link type="primary" size="small" @click.prevent="handleDeleteUser(scope.row.id)">
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click.prevent="handleDeleteUser(scope.row.id)"
+          >
             Remove
           </el-button>
         </template>

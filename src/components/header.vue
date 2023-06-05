@@ -2,95 +2,147 @@
 import { Search } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 
-const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 
-const { authUser } = storeToRefs(authStore)
-const menus = [
-  { name: "Home", path: "/" },
-  { name: "Test", path: "/paper" },
-  { name: "Groups", path: "/list/groups" },
-  { name: "Flash Sale", path: "/list/flash-sale" },
-  { name: "Live", path: "/list/live" },
-  { name: "Column", path: "/list/column" },
-  { name: "Book", path: "/list/book" },
-  { name: "BBS", path: "/list/bbs" },
-  { name: "Courses", path: "/list/courses" },
-]
-const activeIndex = ref('0')
-
-const navigateTo = (path: string) => router.push(path)
-
-const handleLogout = () => authStore.logout()
-const goHome = () => navigateTo("/")
-const goLogin = () => navigateTo("")
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log({ key, keyPath })
+interface IMenu {
+  name: string
+  path: string
+  subMenus?: { name: string; path: string }[]
+}
+interface IUserOption {
+  label: string
+  path: string
 }
 
+const menus: IMenu[] = [
+  { name: 'Home', path: '/' },
+  { name: 'Tests', path: '/tests' },
+  { name: 'Groups', path: '/groups' },
+  {
+    name: 'Flash Sales',
+    path: '/flash-sales',
+    subMenus: [
+      { name: 'Hot', path: '/flash-sales/hot' },
+      { name: 'New', path: '/flash-sales/new' },
+    ],
+  },
+  { name: 'Lives', path: '/lives' },
+  { name: 'Columns', path: '/columns' },
+  { name: 'Books', path: '/books' },
+  { name: 'BBS', path: '/bbs' },
+  { name: 'Courses', path: '/courses' },
+]
+const userOptions: IUserOption[] = [
+  { label: 'Profile', path: '/profile' },
+  { label: 'Logout', path: 'logout' },
+]
+const { authUser } = storeToRefs(authStore)
+const mainPath = `/${route.fullPath.split('/')[1]}`
+const activeIndex = ref(mainPath)
+
+const handleLogout = () => authStore.logout()
+const goHome = () => navigateTo('/')
+const goLogin = () => navigateTo('/auth/login')
+const handleSelectMenu = (path: string) => navigateTo(path)
+const handleSelectUserOption = (path: string) => {
+  // handle logout
+  if (path === 'logout') {
+    authStore.logout()
+    return
+  }
+
+  navigateTo(path)
+  activeIndex.value = path
+}
 </script>
 
 <template>
-  <header class="header-box shadow">
-    <div container mx-auto class="flex justify-between items-center h-full">
-      <!-- logo -->
-      <div class="logo-box">
-        <h4 class="text" @click="goHome">IT programming</h4>
+  <client-only>
+    <header class="fixed top-0 left-0 z-100 w-full shadow">
+      <div
+        container
+        mx-auto
+        class="flex justify-between items-center"
+      >
+        <!-- logo -->
+        <div class="cursor-pointer">
+          <h4 class="text" @click="goHome">
+            IT programming
+          </h4>
+        </div>
+
+        <!-- menus -->
+        <div class="flex-1 ml-8">
+          <el-menu
+            :default-active="activeIndex"
+            mode="horizontal"
+            style="border-bottom: 0"
+            @select="handleSelectMenu"
+          >
+            <template
+              v-for="menu in menus"
+              :key="menu.name"
+            >
+              <!-- sub menu -->
+              <el-sub-menu
+                v-if="menu.subMenus"
+                :index="menu.path"
+              >
+                <template #title>
+                  {{ menu.name }}
+                </template>
+                <el-menu-item
+                  v-for="subMenu in menu.subMenus!"
+                  :key="subMenu.path"
+                  :index="subMenu.path"
+                  >{{ subMenu.name }}</el-menu-item
+                >
+              </el-sub-menu>
+
+              <!-- menu -->
+              <el-menu-item v-else :index="menu.path">{{
+                menu.name
+              }}</el-menu-item>
+            </template>
+          </el-menu>
+        </div>
+
+        <!-- nav right -->
+        <div class="flex items-center">
+          <el-button :icon="Search" circle class="mr-2" />
+
+          <!-- users -->
+          <el-dropdown
+            v-if="authUser"
+            @command="handleSelectUserOption"
+          >
+            <el-avatar
+              :size="32"
+              shape="circle"
+              class="cursor-pointer"
+              src="https://upload.wikimedia.org/wikipedia/fa/2/2b/Starship_Entertainment.png"
+            />
+
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="option in userOptions"
+                  :key="option.path"
+                  :command="option.path"
+                  >{{ option.label }}</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+
+          <el-button v-else plain @click="goLogin">
+            Log in
+          </el-button>
+        </div>
+
+        <!-- users -->
       </div>
-
-      <!-- menus -->
-      <div class="menu-box">
-        <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-          <el-menu-item v-for="(menu, index) in menus" :key="index" :index="`${index}`" @click="navigateTo(menu.path)">{{
-            menu.name
-          }}</el-menu-item>
-        </el-menu>
-      </div>
-
-      <div class="nav-right">
-        <el-button :icon="Search" circle />
-        <el-button plain @click=""> Log in </el-button>
-      </div>
-
-      <!-- users -->
-    </div>
-    <el-avatar :size="60" shape="square"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/500px-LEGO_logo.svg.png?20221012140704"
-      @click="navigateTo('/')" />
-    <span class="py-2 bg-black"> items </span>
-
-    <span class="px-4 py-2 bg-red-400 cursor-pointer" @click="navigateTo('/users')">users</span>
-
-    <div>
-      <el-button v-if="authUser" type="primary" @click="handleLogout">
-        Logout
-      </el-button>
-
-      <el-button v-else type="primary" @click="navigateTo('/auth/login')">
-        Login
-        <el-icon size="20">
-          <el-icon-circle-plus />
-        </el-icon>
-      </el-button>
-
-    </div>
-  </header>
+    </header>
+  </client-only>
 </template>
-<style scoped lang="scss">
-.header-box {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-}
-
-.logo-box {
-  >.text {
-    font-size: 20px;
-    font-weight: 700;
-    padding: 0;
-    margin: 0;
-  }
-}
-</style>

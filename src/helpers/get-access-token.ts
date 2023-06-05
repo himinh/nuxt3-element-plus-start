@@ -11,7 +11,9 @@ export const getAccessToken = async () => {
   if (accessToken.iat < Date.now()) {
     try {
       // refresh token
-      const newTokens = await authApi.refreshToken(refreshToken.token)
+      const newTokens = await authApi.refreshToken(
+        refreshToken.token
+      )
 
       localStorageHelper.setAuth({ ...newTokens, user })
 
