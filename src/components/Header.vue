@@ -59,11 +59,13 @@ const handleSelectUserOption = (path: string) => {
 
 <template>
   <client-only>
-    <header class="fixed top-0 left-0 z-100 w-full shadow">
+    <header
+      class="fixed top-0 left-0 z-100 w-full shadow h-[60px] bg-white"
+    >
       <div
         container
         mx-auto
-        class="flex justify-between items-center"
+        class="flex justify-between items-center h-full max-w-[1140px]"
       >
         <!-- logo -->
         <div class="cursor-pointer">

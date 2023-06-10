@@ -1,56 +1,13 @@
-<template>
-  <el-form
-    ref="formRef"
-    :model="inputs"
-    :rules="loginRules"
-    label-position="top"
-    label-width="100px"
-    class="min-w-[380px]"
-    status-icon
-  >
-    <h2>{{ loginState.pending }}</h2>
-    <!-- email -->
-    <el-form-item label="Email" prop="email">
-      <el-input
-        v-model="inputs.email"
-        placeholder="Enter email..."
-      />
-    </el-form-item>
-
-    <!-- password -->
-    <el-form-item label="Password" prop="password">
-      <el-input
-        v-model="inputs.password"
-        type="password"
-        placeholder="Enter password..."
-      />
-    </el-form-item>
-
-    <!-- submit -->
-    <el-form-item class="mt-8">
-      <el-button
-        class="w-full"
-        type="primary"
-        :loading="loginState.pending"
-        @click="handleLogin(formRef)"
-      >
-        Sign In
-      </el-button>
-    </el-form-item>
-  </el-form>
-</template>
-
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
+import type { FormInstance } from 'element-plus'
 import { loginRules } from '~/validations/auth.rules'
 import { Login } from '~/types/auth'
-import { getErrorMessage } from '~~/src/helpers/get-error-message'
+import { getErrorMessage } from '~/helpers/get-error-message'
 
 const authStore = useAuthStore()
 const { loginState } = storeToRefs(authStore)
-const route = useRoute()
 
 definePageMeta({
   layout: 'auth',
@@ -93,3 +50,45 @@ watch(
   }
 )
 </script>
+
+<template>
+  <el-form
+    ref="formRef"
+    :model="inputs"
+    :rules="loginRules"
+    label-position="top"
+    label-width="100px"
+    class="min-w-[380px]"
+    status-icon
+  >
+    <h2>{{ loginState.pending }}</h2>
+    <!-- email -->
+    <el-form-item label="Email" prop="email">
+      <el-input
+        v-model="inputs.email"
+        placeholder="Enter email..."
+      />
+    </el-form-item>
+
+    <!-- password -->
+    <el-form-item label="Password" prop="password">
+      <el-input
+        v-model="inputs.password"
+        type="password"
+        placeholder="Enter password..."
+      />
+    </el-form-item>
+
+    <!-- submit -->
+    <el-form-item class="mt-8">
+      <el-button
+        class="w-full"
+        type="primary"
+        :loading="loginState.pending"
+        @click="handleLogin(formRef)"
+      >
+        Sign In
+      </el-button>
+    </el-form-item>
+  </el-form>
+</template>
