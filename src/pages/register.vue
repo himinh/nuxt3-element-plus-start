@@ -22,7 +22,10 @@ await register({
 <template>
   <form class="max-w-sm mx-auto mt-8">
     <div class="mb-4">
-      <label class="block text-gray-700 font-bold mb-2" for="email">
+      <label
+        class="block text-gray-700 font-bold mb-2"
+        for="email"
+      >
         Email
       </label>
       <input
@@ -34,7 +37,10 @@ await register({
     </div>
 
     <div class="mb-6">
-      <label class="block text-gray-700 font-bold mb-2" for="password">
+      <label
+        class="block text-gray-700 font-bold mb-2"
+        for="password"
+      >
         Mật khẩu
       </label>
       <input
@@ -43,7 +49,9 @@ await register({
         type="password"
         placeholder="Mật khẩu"
       />
-      <p class="text-red-500 text-xs italic">Vui lòng nhập mật khẩu.</p>
+      <p class="text-red-500 text-xs italic">
+        Vui lòng nhập mật khẩu.
+      </p>
     </div>
     <div class="flex items-center justify-between">
       <button

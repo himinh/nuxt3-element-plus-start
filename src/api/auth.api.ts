@@ -1,17 +1,35 @@
-import { Tokens, AuthUser, Login, Register } from '~/types/auth'
+import {
+  Tokens,
+  AuthUser,
+  Login,
+  Register,
+} from '~/types/auth'
 import { FetchOptions } from '~/types/fetch'
 
 const authUrl = '/auth'
 export const authApi = {
-  login(data: Login, options?: FetchOptions): Promise<AuthUser> {
+  login(
+    data: Login,
+    options?: FetchOptions
+  ): Promise<AuthUser> {
     return client.post(`${authUrl}/login`, data, options)
   },
 
-  loginBySocial(data: Login, options?: FetchOptions): Promise<AuthUser> {
-    return client.post(`${authUrl}/login_by_social`, data, options)
+  loginBySocial(
+    data: Login,
+    options?: FetchOptions
+  ): Promise<AuthUser> {
+    return client.post(
+      `${authUrl}/login_by_social`,
+      data,
+      options
+    )
   },
 
-  register(data: Register, options?: FetchOptions): Promise<AuthUser> {
+  register(
+    data: Register,
+    options?: FetchOptions
+  ): Promise<AuthUser> {
     return client.post(`${authUrl}/register`, data, options)
   },
 
@@ -19,22 +37,37 @@ export const authApi = {
     data: Register,
     options?: FetchOptions
   ): Promise<{ token: string }> {
-    return client.post(`${authUrl}/send_register_token`, data, options)
+    return client.post(
+      `${authUrl}/send_register_token`,
+      data,
+      options
+    )
   },
 
   activateRegisterToken(
     data: Register,
     options?: FetchOptions
   ): Promise<{ token: string }> {
-    return client.post(`${authUrl}/activate_register_token`, data, options)
+    return client.post(
+      `${authUrl}/activate_register_token`,
+      data,
+      options
+    )
   },
 
   logout(): Promise<any> {
     return client.post(`${authUrl}/logout`, {})
   },
 
-  refreshToken(token: string, options?: FetchOptions): Promise<Tokens> {
-    return client.post(`${authUrl}/refresh_token`, { token }, options)
+  refreshToken(
+    token: string,
+    options?: FetchOptions
+  ): Promise<Tokens> {
+    return client.post(
+      `${authUrl}/refresh_token`,
+      { token },
+      options
+    )
   },
 
   sendResetPasswordToken(
@@ -55,6 +88,10 @@ export const authApi = {
     },
     options?: FetchOptions
   ): Promise<Tokens> {
-    return client.post(`${authUrl}/reset_password`, body, options)
+    return client.post(
+      `${authUrl}/reset_password`,
+      body,
+      options
+    )
   },
 }

@@ -5,7 +5,8 @@ export type Login = {
   email: string
 }
 
-export type Register = Login & Pick<User, 'fullName' | 'dateOfBirth' | 'gender'>
+export type Register = Login &
+  Pick<User, 'fullName' | 'dateOfBirth' | 'gender'>
 
 export type Token = {
   token: string

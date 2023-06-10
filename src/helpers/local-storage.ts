@@ -6,13 +6,18 @@ export const localStorageKey = {
 
 export const localStorageHelper = {
   getAuth(): AuthUser | null {
-    const authString = localStorage.getItem(localStorageKey.auth)
+    const authString = localStorage.getItem(
+      localStorageKey.auth
+    )
 
     return authString ? JSON.parse(authString) : null
   },
 
   setAuth(auth: AuthUser) {
-    localStorage.setItem(localStorageKey.auth, JSON.stringify(auth))
+    localStorage.setItem(
+      localStorageKey.auth,
+      JSON.stringify(auth)
+    )
   },
 
   deleteAuth() {

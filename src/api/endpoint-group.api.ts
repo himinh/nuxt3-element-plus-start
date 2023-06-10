@@ -16,10 +16,17 @@ export const endpointGroupService = {
     query?: QueryParams,
     options?: FetchOptions
   ): Promise<EndpointGroup> {
-    return client.get(`${endpointGroupUrl}/${id}`, query, options)
+    return client.get(
+      `${endpointGroupUrl}/${id}`,
+      query,
+      options
+    )
   },
 
-  create(body: EndpointGroup, options?: FetchOptions): Promise<EndpointGroup> {
+  create(
+    body: EndpointGroup,
+    options?: FetchOptions
+  ): Promise<EndpointGroup> {
     return client.post(`${endpointGroupUrl}`, body, options)
   },
 
@@ -28,23 +35,34 @@ export const endpointGroupService = {
     body: EndpointGroup,
     options?: FetchOptions
   ): Promise<EndpointGroup> {
-    return client.patch(`${endpointGroupUrl}/${id}`, body, options)
+    return client.patch(
+      `${endpointGroupUrl}/${id}`,
+      body,
+      options
+    )
   },
 
   delete(id: string): Promise<EndpointGroup> {
     return client.delete(`/${`${endpointGroupUrl}`}/${id}`)
   },
 
-  updatePassword(body: { oldPassword: string; newPassword: string }) {
+  updatePassword(body: {
+    oldPassword: string
+    newPassword: string
+  }) {
     return client.patch(`${endpointGroupUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(`${endpointGroupUrl}/${ids.toString()}/soft_ids`)
+    return client.delete(
+      `${endpointGroupUrl}/${ids.toString()}/soft_ids`
+    )
   },
 
   deleteManyByIds(ids: string[]) {
-    return client.delete(`${endpointGroupUrl}/${ids.toString()}`)
+    return client.delete(
+      `${endpointGroupUrl}/${ids.toString()}`
+    )
   },
 
   getMe() {
@@ -55,6 +73,10 @@ export const endpointGroupService = {
     query?: QueryParams,
     options?: FetchOptions
   ): Promise<PaginateResponse<EndpointGroup>> {
-    return client.get(`${endpointGroupUrl}/paginate`, query, options)
+    return client.get(
+      `${endpointGroupUrl}/paginate`,
+      query,
+      options
+    )
   },
 }

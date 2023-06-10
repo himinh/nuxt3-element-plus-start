@@ -1,20 +1,39 @@
 <template>
-  <el-form ref="formRef" :model="inputs" :rules="loginRules" label-position="top" label-width="100px"
-    class="min-w-[380px]" status-icon>
+  <el-form
+    ref="formRef"
+    :model="inputs"
+    :rules="loginRules"
+    label-position="top"
+    label-width="100px"
+    class="min-w-[380px]"
+    status-icon
+  >
     <h2>{{ loginState.pending }}</h2>
     <!-- email -->
     <el-form-item label="Email" prop="email">
-      <el-input v-model="inputs.email" placeholder="Enter email..." />
+      <el-input
+        v-model="inputs.email"
+        placeholder="Enter email..."
+      />
     </el-form-item>
 
     <!-- password -->
     <el-form-item label="Password" prop="password">
-      <el-input type="password" v-model="inputs.password" placeholder="Enter password..." />
+      <el-input
+        v-model="inputs.password"
+        type="password"
+        placeholder="Enter password..."
+      />
     </el-form-item>
 
     <!-- submit -->
     <el-form-item class="mt-8">
-      <el-button class="w-full" type="primary" @click="handleLogin(formRef)" :loading="loginState.pending">
+      <el-button
+        class="w-full"
+        type="primary"
+        :loading="loginState.pending"
+        @click="handleLogin(formRef)"
+      >
         Sign In
       </el-button>
     </el-form-item>
@@ -22,11 +41,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Login } from '~/types/auth'
-import { loginRules } from '~/validations/auth.rules'
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
+import { loginRules } from '~/validations/auth.rules'
+import { Login } from '~/types/auth'
 import { getErrorMessage } from '~~/src/helpers/get-error-message'
 
 const authStore = useAuthStore()
@@ -34,8 +53,8 @@ const { loginState } = storeToRefs(authStore)
 const route = useRoute()
 
 definePageMeta({
-  layout: "auth",
-  middleware: ['only-visitor']
+  layout: 'auth',
+  middleware: ['only-visitor'],
 })
 
 const formRef = ref<FormInstance>()
@@ -44,10 +63,12 @@ const inputs = reactive<Login>({
   password: 'minhchiu.it.01',
 })
 
-const handleLogin = async (formEl: FormInstance | undefined) => {
+const handleLogin = async (
+  formEl: FormInstance | undefined
+) => {
   if (!formEl) return
 
-  await formEl.validate((valid,) => {
+  await formEl.validate((valid) => {
     if (!valid) return
 
     authStore.login(inputs)
@@ -71,6 +92,4 @@ watch(
     }
   }
 )
-
-
 </script>

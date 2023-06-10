@@ -2,7 +2,11 @@ import { FormRules } from 'element-plus'
 
 export const loginRules = reactive<FormRules>({
   email: [
-    { required: true, message: 'Please input email', trigger: 'blur' },
+    {
+      required: true,
+      message: 'Please input email',
+      trigger: 'blur',
+    },
     {
       min: 1,
       // type: 'email',
@@ -11,7 +15,11 @@ export const loginRules = reactive<FormRules>({
     },
   ],
   password: [
-    { required: true, message: 'Please input password', trigger: 'blur' },
+    {
+      required: true,
+      message: 'Please input password',
+      trigger: 'blur',
+    },
     {
       // min: 6,
       min: 1,
