@@ -47,7 +47,7 @@ const data = [
 ]
 </script>
 <template>
-  <el-row :gutter="20" mb-6>
+  <el-row :gutter="16" mb-6>
     <el-col v-for="item in data" :key="item.id" :span="6">
       <div
         class="shadow rounded cursor-pointer bg-white"
@@ -61,7 +61,9 @@ const data = [
         />
 
         <div class="py-4">
-          <p my-0 text-center>{{ item.name }}</p>
+          <p my-0 text-center class="text-sm">
+            {{ item.name }}
+          </p>
         </div>
       </div>
     </el-col>
