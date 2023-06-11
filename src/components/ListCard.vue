@@ -20,7 +20,7 @@ defineProps<IProps>()
       >
     </div>
 
-    <el-row :gutter="20">
+    <el-row :gutter="16">
       <el-col
         v-for="item in data.data"
         :key="item.id"
