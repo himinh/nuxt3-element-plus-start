@@ -47,7 +47,7 @@ const data = [
 ]
 </script>
 <template>
-  <el-row :gutter="16" mb-6>
+  <el-row :gutter="20" mb-6>
     <el-col v-for="item in data" :key="item.id" :span="6">
       <div
         class="shadow rounded cursor-pointer bg-white"

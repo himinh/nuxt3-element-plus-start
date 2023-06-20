@@ -24,7 +24,10 @@ const handleClick = (path: string) => {
 </script>
 
 <template>
-  <div mx-auto class="bg-dark-400 text-light-500">
+  <div
+    mx-auto
+    class="w-full mt-auto bg-dark-400 text-light-500"
+  >
     <div class="flex items-center justify-center py-6">
       <el-link
         v-for="(link, index) in footerLinks"
