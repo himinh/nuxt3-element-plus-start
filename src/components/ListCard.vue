@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 interface IProps {
   data: {
-    title: string
-    type: string
+    title?: string
+    type?: string
     data: any[]
   }
 }
@@ -20,7 +20,7 @@ defineProps<IProps>()
       >
     </div>
 
-    <el-row :gutter="16">
+    <el-row :gutter="20">
       <el-col
         v-for="item in data.data"
         :key="item.id"

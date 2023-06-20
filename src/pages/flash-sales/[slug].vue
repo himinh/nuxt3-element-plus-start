@@ -15,37 +15,17 @@ const page = ref<number>(
 const data: any[] = [
   {
     cover:
-      'http://demo-mp3.oss-cn-shenzhen.aliyuncs.com/egg-edu-demo/a86e1c2f5a12eda9eb7d.png',
-    end_time: '2024-11-20T16:00:00.000Z',
-    id: 5,
-    price: '10.00',
-    start_time: '2021-10-16T16:00:00.000Z',
-    sub_count: 0,
-    t_price: '100.00',
-    title: '第二个直播',
-    type: 'live',
-  },
-  {
-    cover: 'http://dummyimage.com/200x100',
-    end_time: '2021-04-03T17:00:00.000Z',
-    id: 4,
-    price: '9.98',
-    start_time: '2021-04-02T17:00:00.000Z',
-    sub_count: 0,
-    t_price: '20.00',
-    title: '第一个直播',
-    type: 'live',
-  },
-  {
-    cover: 'http://dummyimage.com/200x100',
-    end_time: '2024-04-03T17:00:00.000Z',
+      'http://demo-mp3.oss-cn-shenzhen.aliyuncs.com/egg-edu-demo/2e96031726768d0d493f.png',
+    end_time: '2024-09-29T16:00:00.000Z',
+    flashsale_id: 29,
     id: 3,
-    price: '9.98',
-    start_time: '2021-04-02T17:00:00.000Z',
-    sub_count: 0,
-    t_price: '20.00',
-    title: '第一个直播',
-    type: 'live',
+    price: '0.10',
+    s_num: 9000,
+    start_time: '2021-08-05T16:00:00.000Z',
+    t_price: '9.98',
+    title: 'uni-app实战仿微信app开发',
+    type: 'column',
+    used_num: 7,
   },
 ]
 
@@ -67,9 +47,12 @@ const handleCurrentChange = (val: number) => {
         <el-breadcrumb-item :to="{ path: '/' }"
           >Home</el-breadcrumb-item
         >
-        <el-breadcrumb-item capitalize
-          >Lives</el-breadcrumb-item
+        <el-breadcrumb-item :to="{ path: '/flash-sales' }"
+          >Flash sales</el-breadcrumb-item
         >
+        <el-breadcrumb-item capitalize>{{
+          slug
+        }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 

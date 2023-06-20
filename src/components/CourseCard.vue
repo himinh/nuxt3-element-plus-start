@@ -4,17 +4,17 @@ interface IProp {
     id: number
     title: string
     cover: string
-    try: string
-    content: string
+    try?: string
+    content?: string
     price: string
     t_price: string
     type: string
-    school_id: number
-    status: number
-    sub_count: number
-    is_single: number
-    created_time: string
-    updated_time: string
+    school_id?: number
+    status?: number
+    sub_count?: number
+    is_single?: number
+    created_time?: string
+    updated_time?: string
     group_id?: undefined
     flashsale_id?: undefined
     start_time?: undefined

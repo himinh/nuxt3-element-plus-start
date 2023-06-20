@@ -62,88 +62,90 @@ const handleSelectUserOption = (path: string) => {
     <header
       class="fixed top-0 left-0 z-100 w-full shadow h-[60px] bg-white"
     >
-      <div
-        container
-        mx-auto
-        class="flex justify-between items-center h-full max-w-[1140px]"
-      >
-        <!-- logo -->
-        <div class="cursor-pointer">
-          <h4 class="text" @click="goHome">
-            IT programming
-          </h4>
-        </div>
+      <div class="max-w-[1140px] mx-auto">
+        <div
+          container
+          mx-auto
+          class="flex justify-between items-center h-full"
+        >
+          <!-- logo -->
+          <div class="cursor-pointer">
+            <h4 class="text" @click="goHome">
+              IT programming
+            </h4>
+          </div>
 
-        <!-- menus -->
-        <div class="flex-1 ml-8">
-          <el-menu
-            :default-active="activeIndex"
-            mode="horizontal"
-            style="border-bottom: 0"
-            @select="handleSelectMenu"
-          >
-            <template
-              v-for="menu in menus"
-              :key="menu.name"
+          <!-- menus -->
+          <div class="flex-1 ml-8">
+            <el-menu
+              :default-active="activeIndex"
+              mode="horizontal"
+              style="border-bottom: 0"
+              @select="handleSelectMenu"
             >
-              <!-- sub menu -->
-              <el-sub-menu
-                v-if="menu.subMenus"
-                :index="menu.path"
+              <template
+                v-for="menu in menus"
+                :key="menu.name"
               >
-                <template #title>
-                  {{ menu.name }}
-                </template>
-                <el-menu-item
-                  v-for="subMenu in menu.subMenus!"
-                  :key="subMenu.path"
-                  :index="subMenu.path"
-                  >{{ subMenu.name }}</el-menu-item
+                <!-- sub menu -->
+                <el-sub-menu
+                  v-if="menu.subMenus"
+                  :index="menu.path"
                 >
-              </el-sub-menu>
+                  <template #title>
+                    {{ menu.name }}
+                  </template>
+                  <el-menu-item
+                    v-for="subMenu in menu.subMenus!"
+                    :key="subMenu.path"
+                    :index="subMenu.path"
+                    >{{ subMenu.name }}</el-menu-item
+                  >
+                </el-sub-menu>
 
-              <!-- menu -->
-              <el-menu-item v-else :index="menu.path">{{
-                menu.name
-              }}</el-menu-item>
-            </template>
-          </el-menu>
-        </div>
+                <!-- menu -->
+                <el-menu-item v-else :index="menu.path">{{
+                  menu.name
+                }}</el-menu-item>
+              </template>
+            </el-menu>
+          </div>
 
-        <!-- nav right -->
-        <div class="flex items-center">
-          <el-button :icon="Search" circle class="mr-2" />
+          <!-- nav right -->
+          <div class="flex items-center">
+            <el-button :icon="Search" circle class="mr-2" />
+
+            <!-- users -->
+            <el-dropdown
+              v-if="authUser"
+              @command="handleSelectUserOption"
+            >
+              <el-avatar
+                :size="32"
+                shape="circle"
+                class="cursor-pointer"
+                src="https://upload.wikimedia.org/wikipedia/fa/2/2b/Starship_Entertainment.png"
+              />
+
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item
+                    v-for="option in userOptions"
+                    :key="option.path"
+                    :command="option.path"
+                    >{{ option.label }}</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+
+            <el-button v-else plain @click="goLogin">
+              Log in
+            </el-button>
+          </div>
 
           <!-- users -->
-          <el-dropdown
-            v-if="authUser"
-            @command="handleSelectUserOption"
-          >
-            <el-avatar
-              :size="32"
-              shape="circle"
-              class="cursor-pointer"
-              src="https://upload.wikimedia.org/wikipedia/fa/2/2b/Starship_Entertainment.png"
-            />
-
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item
-                  v-for="option in userOptions"
-                  :key="option.path"
-                  :command="option.path"
-                  >{{ option.label }}</el-dropdown-item
-                >
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-
-          <el-button v-else plain @click="goLogin">
-            Log in
-          </el-button>
         </div>
-
-        <!-- users -->
       </div>
     </header>
   </client-only>
