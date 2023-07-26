@@ -6,7 +6,14 @@ export type Login = {
 }
 
 export type Register = Login &
-  Pick<User, 'fullName' | 'dateOfBirth' | 'gender'>
+  Pick<
+    User,
+    | 'fullName'
+    | 'dateOfBirth'
+    | 'gender'
+    | 'username'
+    | 'phone'
+  >
 
 export type Token = {
   token: string

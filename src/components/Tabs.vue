@@ -2,10 +2,10 @@
 const route = useRoute()
 const router = useRouter()
 
-interface IProps {
-  tabs: { [key: string]: any }[]
-}
-defineProps<IProps>()
+// interface IProps {
+//   tabList: { [key: string]: any }[]
+// }
+// defineProps<IProps>()
 
 interface ITab {
   id: number
@@ -14,7 +14,7 @@ interface ITab {
 }
 
 const activeTab = ref<string>('')
-const tabs = ref<ITab[]>([
+const tabList = ref<ITab[]>([
   { id: 0, title: 'All', slug: '' },
   { id: 72, title: 'Fashion', slug: 'fashion' },
   { id: 71, title: 'Games', slug: 'games' },
@@ -38,7 +38,7 @@ const handleClick = (slug: string) => {
 <template>
   <div class="flex items-center bg-white rounded mb-5">
     <el-text
-      v-for="tab in tabs"
+      v-for="tab in tabList"
       :key="tab.id"
       :class="{ active: tab.slug === activeTab }"
       @click="handleClick(tab.slug)"

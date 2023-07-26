@@ -1,94 +1,136 @@
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import type { FormInstance } from 'element-plus'
-import { loginRules } from '~/validations/auth.rules'
-import { Login } from '~/types/auth'
-import { getErrorMessage } from '~/helpers/get-error-message'
-
-const authStore = useAuthStore()
-const { loginState } = storeToRefs(authStore)
+<script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus'
+const title = 'Log In'
 
 definePageMeta({
   layout: 'auth',
-  middleware: ['only-visitor'],
+  // middleware: ['only-visitor'],
+  title: 'Log In',
 })
 
-const formRef = ref<FormInstance>()
-const inputs = reactive<Login>({
-  email: 'minh12@gmail.com',
-  password: 'minhchiu.it.01',
-})
+useHead({ title: 'Log In' })
 
-const handleLogin = async (
-  formEl: FormInstance | undefined
-) => {
-  if (!formEl) return
-
-  await formEl.validate((valid) => {
-    if (!valid) return
-
-    authStore.login(inputs)
-  })
+interface FormData {
+  email: string
+  password: string
 }
 
-// Handle response error from server
-watch(
-  () => loginState.value.error,
-  () => {
-    if (loginState.value.error) {
-      const { data } = loginState.value.error
-      const message = getErrorMessage(data)
+const formInstance = ref<FormInstance>()
+const formData = ref<FormData>({
+  email: '',
+  password: '',
+})
+const formRules = reactive<FormRules<FormData>>({
+  email: [
+    {
+      required: true,
+      message: 'Please input email address',
+      trigger: 'blur',
+    },
+    {
+      type: 'email',
+      message: 'Please input correct email address',
+      trigger: ['blur', 'change'],
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: 'Please input password',
+      trigger: 'blur',
+    },
+    {
+      type: 'string',
+      min: 6,
+      max: 50,
+      trigger: ['blur', 'change'],
+    },
+  ],
+})
 
-      ElNotification({
-        title: data.title,
-        message,
-        dangerouslyUseHTMLString: true,
-        type: 'error',
-      })
+const handleLogin = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+
+  formEl.validate((valid) => {
+    if (valid) {
+      // console.log({ formData })
     }
-  }
-)
+
+    return false
+  })
+}
 </script>
 
 <template>
-  <el-form
-    ref="formRef"
-    :model="inputs"
-    :rules="loginRules"
-    label-position="top"
-    label-width="100px"
-    class="min-w-[380px]"
-    status-icon
-  >
-    <h2>{{ loginState.pending }}</h2>
-    <!-- email -->
-    <el-form-item label="Email" prop="email">
-      <el-input
-        v-model="inputs.email"
-        placeholder="Enter email..."
-      />
-    </el-form-item>
+  <div class="w-[340px]">
+    <el-alert
+      title=""
+      type="info"
+      show-icon
+      :closable="false"
+    >
+      The account demo:
+      <el-tag class="ml-2">user@gmail.com</el-tag>
+    </el-alert>
 
-    <!-- password -->
-    <el-form-item label="Password" prop="password">
-      <el-input
-        v-model="inputs.password"
-        type="password"
-        placeholder="Enter password..."
-      />
-    </el-form-item>
+    <el-form
+      ref="formInstance"
+      :model="formData"
+      status-icon
+      :rules="formRules"
+      size="large"
+    >
+      <el-form-item prop="email">
+        <el-input
+          v-model="formData.email"
+          type="email"
+          placeholder="Eg: user@gmail.com"
+        />
+      </el-form-item>
 
-    <!-- submit -->
-    <el-form-item class="mt-8">
-      <el-button
-        class="w-full"
-        type="primary"
-        :loading="loginState.pending"
-        @click="handleLogin(formRef)"
-      >
-        Sign In
-      </el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item prop="password">
+        <el-input
+          v-model="formData.password"
+          type="password"
+          placeholder="Enter your password"
+        />
+      </el-form-item>
+
+      <div class="flex justify-between">
+        <el-button
+          size="small"
+          type="primary"
+          link
+          bg
+          @click="navigateTo('/auth/register')"
+          >Register</el-button
+        >
+
+        <el-button size="small" type="primary" link bg
+          >Forgot password</el-button
+        >
+      </div>
+
+      <el-form-item style="margin-top: 10px">
+        <el-button
+          size="default"
+          type="primary"
+          w-full
+          mt-2
+          @click="handleLogin(formInstance)"
+          >Login</el-button
+        >
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.el-alert {
+  margin-top: 12px;
+}
+
+.el-form-item {
+  margin-top: 20px;
+}
+</style>

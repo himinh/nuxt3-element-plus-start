@@ -68,6 +68,7 @@ export default defineNuxtConfig({
     autoImports: ['defineStore'],
   },
 
+  // element plus
   elementPlus: {
     icon: 'ElIcon',
     importStyle: 'scss',

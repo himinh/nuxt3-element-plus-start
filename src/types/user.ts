@@ -1,18 +1,15 @@
-import { AuthType } from '~/enums/auth-type'
 import { Gender } from '~/enums/gender'
 import { Role } from '~/enums/role'
 
 export type User = {
-  email?: string
-  phone?: string
-  username?: string
-  authKey?: string
-  authType: AuthType
+  email: string
+  phone: string
+  username: string
 
   _id: string
   fullName: string
-  gender: Gender
-  dateOfBirth: number
+  gender: Gender | ''
+  dateOfBirth: string
 
   deviceID: string
   fcmTokens: string[]
