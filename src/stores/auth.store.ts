@@ -6,16 +6,25 @@ export const useAuthStore = defineStore('auth', () => {
   const authUser = ref<AuthUser | null>(
     localStorageHelper.getAuth()
   )
+
   const route = useRoute()
+
   const loginState = ref({
     pending: ref(),
     error: ref(),
   })
+
   const registerState = ref({
     pending: ref(),
     error: ref(),
   })
 
+  /**
+   * Login
+   *
+   * @param inputs
+   * @returns
+   */
   const login = async (inputs: Login) => {
     const { data, error, pending } = await useAsyncData(
       () => authApi.login(inputs)
@@ -45,6 +54,11 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  /**
+   * Register
+   *
+   * @param inputs
+   */
   const register = (inputs: Register) => {
     const { data, error, pending } = useAsyncData(() =>
       authApi.register(inputs)
@@ -73,12 +87,20 @@ export const useAuthStore = defineStore('auth', () => {
     navigateTo('/auth/login')
   }
 
+  /**
+   * Refresh token
+   */
   const refreshTokenFromLocalStorage = () => {
     const authLocalStorage = localStorageHelper.getAuth()
 
     authUser.value = authLocalStorage
   }
 
+  /**
+   * Get access token
+   *
+   * @returns
+   */
   const getAcToken = async () => {
     refreshTokenFromLocalStorage()
 

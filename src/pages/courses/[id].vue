@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const route = useRoute()
+const { id } = route.params
+</script>
+
 <template>
-  <h1>{{ $route.params.id }}</h1>
+  <div>
+    <section class="py-4"></section>
+  </div>
 </template>
+
+<style lang="scss" scoped></style>

@@ -36,7 +36,8 @@
     "@pinia/nuxt": "^0.4.7",
     "element-plus": "^2.3.1",
     "nuxt-typed-router": "^3.2.0",
-    "pinia": "^2.0.33"
+    "pinia": "^2.0.33",
+    "socket.io-client": "^4.7.1"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [
