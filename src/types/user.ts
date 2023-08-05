@@ -9,7 +9,7 @@ export type User = {
   _id: string
   fullName: string
   gender: Gender | ''
-  dateOfBirth: string
+  dateOfBirth: number
 
   deviceID: string
   fcmTokens: string[]

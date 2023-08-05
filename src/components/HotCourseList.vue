@@ -50,11 +50,9 @@ const data = [
     </div>
 
     <div class="p-3">
-      <CourseCard
-        v-for="item in data"
-        :key="item.id"
-        :item="item"
-      />
+      <template v-for="item in data" :key="item.id">
+        <!-- <CourseCard :item="item" /> -->
+      </template>
     </div>
   </section>
 </template>

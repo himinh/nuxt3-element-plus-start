@@ -24,26 +24,19 @@ export const menuApi = {
     return client.delete(`/${`${menuUrl}`}/${id}`)
   },
 
-  updatePassword(body: {
-    oldPassword: string
-    newPassword: string
-  }) {
+  updatePassword(body: { oldPassword: string; newPassword: string }) {
     return client.patch(`${menuUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(
-      `${menuUrl}/${ids.toString()}/soft_ids`
-    )
+    return client.delete(`${menuUrl}/${ids.toString()}/soft_ids`)
   },
 
   deleteManyByIds(ids: string[]) {
     return client.delete(`${menuUrl}/${ids.toString()}`)
   },
 
-  paginate(
-    query?: QueryParams
-  ): Promise<PaginateResponse<Menu>> {
+  paginate(query?: QueryParams): Promise<PaginateResponse<Menu>> {
     return client.get(`${menuUrl}/paginate`, query)
   },
 }

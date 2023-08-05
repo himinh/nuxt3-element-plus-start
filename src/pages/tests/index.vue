@@ -2,9 +2,9 @@
 const route = useRoute()
 const router = useRouter()
 
-const page = ref<number>(
-  route.query.page ? +route.query.page : 1
-)
+const userStore = useUserStore()
+
+const page = ref<number>(route.query.page ? +route.query.page : 1)
 
 const data = [
   {
@@ -101,19 +101,14 @@ const handleCurrentChange = (val: number) => {
 </script>
 
 <template>
+  {{ userStore.users }}
   <el-row :gutter="20">
     <el-col :span="18">
       <!-- Test cards -->
-      <CardTest
-        v-for="test in data"
-        :key="test.id"
-        :test="test"
-      />
+      <CardTest v-for="test in data" :key="test.id" :test="test" />
 
       <!-- Pagination -->
-      <div
-        class="flex justify-center items-center mt-5 mb-10"
-      >
+      <div class="flex justify-center items-center mt-5 mb-10">
         <el-pagination
           small
           background

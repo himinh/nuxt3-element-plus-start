@@ -52,9 +52,7 @@ defineProps<IProp>()
         <div
           class="bg-yellow-500 flex items-center p-3 text-xs rounded-b text-white"
         >
-          <span>{{
-            item.group_id ? 'Group' : 'Spike'
-          }}</span>
+          <span>{{ item.group_id ? 'Group' : 'Spike' }}</span>
 
           <div class="ml-auto flex items-center">
             <SecondsKill :end-time="item.end_time" />

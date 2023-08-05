@@ -24,10 +24,7 @@ const handleClick = (path: string) => {
 </script>
 
 <template>
-  <div
-    mx-auto
-    class="w-full mt-auto bg-dark-400 text-light-500"
-  >
+  <div mx-auto class="w-full mt-auto bg-dark-400 text-light-500">
     <div class="flex items-center justify-center py-6">
       <el-link
         v-for="(link, index) in footerLinks"
@@ -41,10 +38,7 @@ const handleClick = (path: string) => {
     <div class="bg-gray w-full h-[1px]" />
 
     <div class="h-[80px] !py-4 text-center text-xs mx-auto">
-      <span>
-        Copyright© 2022 Classmate Da Zhao E ICP No.
-        1000000-1
-      </span>
+      <span> Copyright© 2022 Classmate Da Zhao E ICP No. 1000000-1 </span>
     </div>
   </div>
 </template>

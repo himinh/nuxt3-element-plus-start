@@ -6,18 +6,11 @@ export type Login = {
 }
 
 export type Register = Login &
-  Pick<
-    User,
-    | 'fullName'
-    | 'dateOfBirth'
-    | 'gender'
-    | 'username'
-    | 'phone'
-  >
+  Pick<User, 'fullName' | 'dateOfBirth' | 'gender' | 'username' | 'phone'>
 
 export type Token = {
   token: string
-  iat: number
+  expiresAt: number
 }
 
 export type Tokens = {

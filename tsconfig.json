@@ -1,8 +1,10 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
+
   "compilerOptions": {
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "target": "es6"
     // "paths": {
     //   "~utils/*": ["./src/utils/*"],
     //   "~types/*": ["./src/types/*"],

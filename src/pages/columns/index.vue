@@ -8,9 +8,7 @@ interface IParams {
 
 const { slug } = route.params as IParams
 
-const page = ref<number>(
-  route.query.page ? +route.query.page : 1
-)
+const page = ref<number>(route.query.page ? +route.query.page : 1)
 
 const data: any[] = [
   {
@@ -40,26 +38,20 @@ const handleCurrentChange = (val: number) => {
     <!-- breadcrumb -->
     <div class="my-5">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }"
-          >Home</el-breadcrumb-item
-        >
-        <el-breadcrumb-item capitalize
-          >Columns</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+        <el-breadcrumb-item capitalize>Columns</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
     <!-- data list  -->
     <el-row :gutter="20">
       <el-col v-for="item in data" :key="item.id" :span="6">
-        <CourseCard :item="item" />
+        <!-- <CourseCard :item="item" /> -->
       </el-col>
     </el-row>
 
     <!-- pagination -->
-    <div
-      class="flex justify-center items-center mt-5 mb-10"
-    >
+    <div class="flex justify-center items-center mt-5 mb-10">
       <el-pagination
         small
         background

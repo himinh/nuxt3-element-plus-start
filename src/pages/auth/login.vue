@@ -1,74 +1,62 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
-const title = 'Log In'
+import type { FormInstance } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { loginRules } from '~/validations/auth.rules'
 
+useHead({ title: 'Log In' })
 definePageMeta({
   layout: 'auth',
-  // middleware: ['only-visitor'],
+  middleware: ['only-visitor'],
   title: 'Log In',
 })
 
-useHead({ title: 'Log In' })
-
-interface FormData {
-  email: string
-  password: string
-}
-
+const route = useRoute()
+const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
-const formData = ref<FormData>({
-  email: '',
-  password: '',
-})
-const formRules = reactive<FormRules<FormData>>({
-  email: [
-    {
-      required: true,
-      message: 'Please input email address',
-      trigger: 'blur',
-    },
-    {
-      type: 'email',
-      message: 'Please input correct email address',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please input password',
-      trigger: 'blur',
-    },
-    {
-      type: 'string',
-      min: 6,
-      max: 50,
-      trigger: ['blur', 'change'],
-    },
-  ],
-})
 
-const handleLogin = (formEl: FormInstance | undefined) => {
+const { formData, resetFormData } = useAuthForm()
+const { authLoading, authUser } = storeToRefs(authStore)
+const from = <string>route.query.form || ''
+
+const onSubmit = async (formEl?: FormInstance) => {
   if (!formEl) return
 
-  formEl.validate((valid) => {
-    if (valid) {
-      // console.log({ formData })
+  await formEl.validate((valid: boolean) => {
+    if (!valid) return false
+
+    const user = {
+      email: formData.value.email,
+      password: formData.value.password,
     }
 
-    return false
+    authStore.login(user)
+
+    return true
   })
 }
+
+watch(
+  () => authUser.value,
+  () => {
+    if (authUser.value) {
+      navigateTo(from, { replace: true })
+
+      ElNotification({
+        message: 'Login success!',
+        type: 'success',
+        position: 'bottom-right',
+        duration: 2000,
+      })
+
+      resetFormData()
+    }
+  }
+)
 </script>
 
 <template>
   <div class="w-[340px]">
-    <el-alert
-      title=""
-      type="info"
-      show-icon
-      :closable="false"
-    >
+    <el-alert title="" type="info" show-icon :closable="false">
       The account demo:
       <el-tag class="ml-2">user@gmail.com</el-tag>
     </el-alert>
@@ -77,14 +65,15 @@ const handleLogin = (formEl: FormInstance | undefined) => {
       ref="formInstance"
       :model="formData"
       status-icon
-      :rules="formRules"
+      :rules="loginRules"
       size="large"
+      @submit="onSubmit(formInstance)"
     >
       <el-form-item prop="email">
         <el-input
           v-model="formData.email"
-          type="email"
-          placeholder="Eg: user@gmail.com"
+          type="text"
+          placeholder="Email/phone/username"
         />
       </el-form-item>
 
@@ -117,7 +106,8 @@ const handleLogin = (formEl: FormInstance | undefined) => {
           type="primary"
           w-full
           mt-2
-          @click="handleLogin(formInstance)"
+          :loading="authLoading.isLoading"
+          @click="onSubmit(formInstance)"
           >Login</el-button
         >
       </el-form-item>

@@ -39,9 +39,7 @@ const handleLike = () => {
 <template>
   <div class="border-b p-5 mb-3 bg-white rounded">
     <div class="cursor-pointer">
-      <el-tag v-if="post.is_top" size="small" type="success"
-        >Top</el-tag
-      >
+      <el-tag v-if="post.is_top" size="small" type="success">Top</el-tag>
       <el-text>{{ post.desc.text }}</el-text>
     </div>
 
@@ -96,9 +94,7 @@ const handleLike = () => {
         {{ post.comment_count || 0 }}
       </el-button>
 
-      <el-button text bg size="small">
-        Author: {{ post.user.name }}
-      </el-button>
+      <el-button text bg size="small"> Author: {{ post.user.name }} </el-button>
     </div>
   </div>
 </template>

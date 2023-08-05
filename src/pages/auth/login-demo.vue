@@ -20,9 +20,7 @@ const inputs = reactive<Login>({
   password: 'minhchiu.it.01',
 })
 
-const handleLogin = async (
-  formEl: FormInstance | undefined
-) => {
+const handleLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
 
   await formEl.validate((valid) => {
@@ -64,10 +62,7 @@ watch(
     <h2>{{ loginState.pending }}</h2>
     <!-- email -->
     <el-form-item label="Email" prop="email">
-      <el-input
-        v-model="inputs.email"
-        placeholder="Enter email..."
-      />
+      <el-input v-model="inputs.email" placeholder="Enter email..." />
     </el-form-item>
 
     <!-- password -->

@@ -21,9 +21,7 @@ const open = () => {
 </script>
 
 <template>
-  <section
-    class="flex p-5 items-stretch mb-5 bg-white shadow rounded"
-  >
+  <section class="flex p-5 items-stretch mb-5 bg-white shadow rounded">
     <el-image
       :src="item.cover"
       fit="cover"
@@ -40,24 +38,13 @@ const open = () => {
       <div class="mt-auto flex items-center">
         <div class="flex items-end">
           <Price :value="item.price" />
-          <Price
-            :value="item.t_price"
-            through
-            class="mt-2"
-          />
+          <Price :value="item.t_price" through class="mt-2" />
         </div>
-        <el-button
-          round
-          type="primary"
-          plain
-          class="ml-auto"
-          @click="open"
-          >{{
-            item.sub_count === 0
-              ? 'Subscribe Now'
-              : `${item.sub_count} People subscribe`
-          }}</el-button
-        >
+        <el-button round type="primary" plain class="ml-auto" @click="open">{{
+          item.sub_count === 0
+            ? 'Subscribe Now'
+            : `${item.sub_count} People subscribe`
+        }}</el-button>
       </div>
     </div>
   </section>

@@ -1,23 +1,14 @@
 import { localStorageHelper } from '~/helpers/local-storage'
-import { AuthUser, Login, Register } from '~/types/auth'
+import { AuthUser, Login, Register, Tokens } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
+import { handleError } from '~/helpers/get-error-message'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser = ref<AuthUser | null>(
-    localStorageHelper.getAuth()
-  )
-
-  const route = useRoute()
-
-  const loginState = ref({
-    pending: ref(),
-    error: ref(),
+  const loading = ref<boolean>(false)
+  const authLoading = ref({
+    isLoading: ref(),
   })
-
-  const registerState = ref({
-    pending: ref(),
-    error: ref(),
-  })
+  const authUser = ref<Tokens | null>(localStorageHelper.getAuth())
 
   /**
    * Login
@@ -26,32 +17,15 @@ export const useAuthStore = defineStore('auth', () => {
    * @returns
    */
   const login = async (inputs: Login) => {
-    const { data, error, pending } = await useAsyncData(
-      () => authApi.login(inputs)
+    const { data, error, pending } = await useAsyncData(() =>
+      authApi.login(inputs)
     )
 
-    loginState.value.pending = pending
+    authLoading.value.isLoading = pending
 
-    if (error.value) {
-      loginState.value.error = error
-      return
-    }
+    if (error.value) return handleError(error.value)
 
-    ElNotification({
-      message: 'Login success!',
-      type: 'success',
-      position: 'bottom-right',
-    })
-
-    authUser.value = data.value
-
-    // save to local storage
-    localStorageHelper.setAuth(authUser.value!)
-
-    // @ts-ignore
-    navigateTo(`/${(route.query.from as string) || ''}`, {
-      replace: true,
-    })
+    _setAuth(data.value!)
   }
 
   /**
@@ -59,41 +33,26 @@ export const useAuthStore = defineStore('auth', () => {
    *
    * @param inputs
    */
-  const register = (inputs: Register) => {
-    const { data, error, pending } = useAsyncData(() =>
+  const register = async (inputs: Register) => {
+    const { data, error, pending } = await useAsyncData(() =>
       authApi.register(inputs)
     )
 
-    loginState.value = { error, pending }
-    authUser.value = data.value
+    authLoading.value.isLoading = pending
 
-    // save to local storage
-    localStorageHelper.setAuth(authUser.value!)
-  }
+    if (error.value) return handleError(error.value)
 
-  const logout = async () => {
-    await useAsyncData(() => authApi.logout())
-
-    // save to local storage
-    localStorageHelper.deleteAuth()
-
-    ElNotification({
-      message: 'Logout success!',
-      type: 'success',
-      position: 'bottom-right',
-    })
-
-    authUser.value = null
-    navigateTo('/auth/login')
+    _setAuth(data.value!)
   }
 
   /**
-   * Refresh token
+   * Logout
    */
-  const refreshTokenFromLocalStorage = () => {
-    const authLocalStorage = localStorageHelper.getAuth()
+  const logout = async () => {
+    await useAsyncData(() => authApi.logout())
 
-    authUser.value = authLocalStorage
+    navigateTo('/auth/login')
+    _clearAuth()
   }
 
   /**
@@ -101,46 +60,84 @@ export const useAuthStore = defineStore('auth', () => {
    *
    * @returns
    */
-  const getAcToken = async () => {
-    refreshTokenFromLocalStorage()
+  const getAccessToken = async () => {
+    if (!authUser.value) return null
 
-    if (!authUser.value) {
-      window.location.assign('/sign-in')
-      return
-    }
-
+    const currentMS = new Date().getTime()
     const { accessToken, refreshToken } = authUser.value
 
-    if (accessToken.iat > new Date().getTime()) {
-      return accessToken.token
+    if (accessToken.expiresAt > currentMS) return accessToken.token
+
+    if (refreshToken.expiresAt < currentMS) {
+      _clearAuth()
+      return null
     }
 
-    if (refreshToken.iat > new Date().getTime()) {
-      try {
-        const data = await authApi.refreshToken(
-          refreshToken.token
-        )
+    const data = await refreshAuthByRfToken(refreshToken.token)
 
-        authUser.value = { ...authUser.value, ...data }
-        localStorageHelper.setAuth(authUser.value)
+    if (data) return data.accessToken.token
 
-        return data.refreshToken.token
-      } catch {
-        window.location.assign('/sign-in')
-        return
-      }
+    _clearAuth()
+    return null
+  }
+
+  /**
+   * Refresh auth by refreshToken
+   *
+   * @param rfToken
+   * @returns
+   */
+  const refreshAuthByRfToken = async (rfToken: string) => {
+    try {
+      const data = await authApi.refreshToken(rfToken)
+      _setAuth(data)
+      return data
+    } catch (error) {
+      handleError(error)
+      _clearAuth()
+      return null
     }
+  }
 
-    window.location.assign('/sign-in')
+  /**
+   * Set auth
+   *
+   * @param data
+   */
+  const _setAuth = (data: AuthUser) => {
+    authUser.value = { ...authUser.value, ...data }
+    localStorageHelper.setAuth(authUser.value)
+  }
+
+  /**
+   * Clear auth
+   */
+  const _clearAuth = () => {
+    localStorageHelper.clearAuth()
+    authUser.value = null
+  }
+
+  /**
+   * Start loading
+   */
+  const _startLoading = () => {
+    loading.value = true
+  }
+
+  /**
+   * Stop loading
+   */
+  const _stopLoading = () => {
+    loading.value = false
   }
 
   return {
     authUser,
-    loginState,
-    registerState,
+    loading,
+    authLoading,
     login,
     register,
     logout,
-    getAcToken,
+    getAccessToken,
   }
 })

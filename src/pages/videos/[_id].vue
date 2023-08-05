@@ -35,11 +35,10 @@ const remoteStream = ref()
 
 const getUserMedia = async () => {
   try {
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      })
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    })
     localStream.value = stream
     localVideo.value.srcObject = stream
   } catch (error) {
@@ -77,9 +76,7 @@ const endCall = () => {
     peerConnection.value.close()
     peerConnection.value = null
     remoteVideo.value.srcObject = null
-    localStream.value
-      .getTracks()
-      .forEach((track: any) => track.stop())
+    localStream.value.getTracks().forEach((track: any) => track.stop())
     localStream.value = null
   }
 }

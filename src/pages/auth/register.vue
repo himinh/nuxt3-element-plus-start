@@ -1,117 +1,49 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { registerRules } from '~/validations/auth.rules'
 import { Gender } from '~/enums/gender'
-import { Register } from '~/types/auth'
 
+useHead({ title: 'Register' })
 definePageMeta({
   layout: 'auth',
-  // middleware: ['only-visitor'],
+  middleware: ['only-visitor'],
   title: 'Register',
 })
 
-useHead({ title: 'Register' })
-
+const route = useRoute()
 const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
-const formData = ref<Register>({
-  username: '',
-  phone: '',
-  email: '',
-  password: '',
-  fullName: '',
-  dateOfBirth: '',
-  gender: '',
-})
-const formRules = reactive<FormRules<Register>>({
-  username: [
-    {
-      required: true,
-      message: 'Please input username',
-      trigger: 'blur',
-    },
-    {
-      min: 4,
-      message: 'Please input correct username',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  phone: [
-    {
-      required: true,
-      message: 'Please input your phone',
-      trigger: 'blur',
-    },
-    {
-      min: 10,
-      message: 'Please input correct phone',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  fullName: [
-    {
-      required: true,
-      message: 'Please input your name',
-      trigger: 'blur',
-    },
-    {
-      min: 2,
-      message: 'Please input correct name',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  email: [
-    {
-      required: true,
-      message: 'Please input email address',
-      trigger: 'blur',
-    },
-    {
-      type: 'email',
-      message: 'Please input correct email address',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please input password',
-      trigger: 'blur',
-    },
-    {
-      type: 'string',
-      min: 6,
-      max: 50,
-      trigger: ['blur', 'change'],
-    },
-  ],
-  dateOfBirth: [
-    {
-      required: true,
-      message: 'Please input date of birth',
-      trigger: ['blur', 'change'],
-    },
-  ],
-  gender: [
-    {
-      required: true,
-      message: 'Please select gender',
-      trigger: 'change',
-    },
-  ],
-})
 
-const handleRegister = (
-  formEl: FormInstance | undefined
-) => {
+const { formData, resetFormData } = useAuthForm()
+const { authLoading, authUser } = storeToRefs(authStore)
+const from = <string>route.query.form
+
+const onSubmit = (formEl?: FormInstance) => {
   if (!formEl) return
 
   formEl.validate((valid) => {
-    if (valid) {
-      return authStore.register(formData.value)
-    }
-    return false
+    if (valid) authStore.register(formData.value)
   })
 }
+
+watch(
+  () => authUser.value,
+  () => {
+    if (authUser.value) {
+      navigateTo(from, { replace: true })
+
+      ElNotification({
+        message: 'Register success!',
+        type: 'success',
+        position: 'bottom-right',
+        duration: 2000,
+      })
+
+      resetFormData()
+    }
+  }
+)
 </script>
 
 <template>
@@ -120,14 +52,15 @@ const handleRegister = (
       ref="formInstance"
       :model="formData"
       status-icon
-      :rules="formRules"
+      :rules="registerRules"
       size="large"
+      @submit="onSubmit(formInstance)"
     >
       <el-form-item prop="fullName">
         <el-input
           v-model="formData.fullName"
           type="text"
-          placeholder="Eg: User Test"
+          placeholder="Enter full name"
         />
       </el-form-item>
 
@@ -135,7 +68,7 @@ const handleRegister = (
         <el-input
           v-model="formData.username"
           type="username"
-          placeholder="Eg: usertest"
+          placeholder="Enter username"
         />
       </el-form-item>
 
@@ -143,7 +76,7 @@ const handleRegister = (
         <el-input
           v-model="formData.phone"
           type="phone"
-          placeholder="Eg: 0387776243"
+          placeholder="Enter your phone"
         />
       </el-form-item>
 
@@ -151,7 +84,7 @@ const handleRegister = (
         <el-input
           v-model="formData.email"
           type="email"
-          placeholder="Eg: user@gmail.com"
+          placeholder="Enter email"
         />
       </el-form-item>
 
@@ -171,7 +104,7 @@ const handleRegister = (
           placeholder="Date of birth"
           w-full
           format="DD/MM/YYYY"
-          value-format="YYYY-MM-DD"
+          value-format="x"
           :default-value="new Date(2000, 9, 9)"
         />
       </el-form-item>
@@ -179,11 +112,7 @@ const handleRegister = (
       <el-form-item prop="gender">
         <el-radio-group
           v-model="formData.gender"
-          style="
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-          "
+          style="width: 100%; display: flex; justify-content: space-between"
         >
           <el-radio :label="Gender.MALE">Male</el-radio>
           <el-radio :label="Gender.FEMALE">Female</el-radio>
@@ -212,7 +141,8 @@ const handleRegister = (
           type="primary"
           w-full
           mt-2
-          @click="handleRegister(formInstance)"
+          :loading="authLoading.isLoading"
+          @click="onSubmit(formInstance)"
           >Register</el-button
         >
       </el-form-item>
