@@ -8,10 +8,7 @@ export const endpointApi = {
     return client.get(`${endpointUrl}`, query)
   },
 
-  getById(
-    id: string,
-    query?: QueryParams
-  ): Promise<Endpoint> {
+  getById(id: string, query?: QueryParams): Promise<Endpoint> {
     return client.get(`${endpointUrl}/${id}`, query)
   },
 
@@ -27,17 +24,12 @@ export const endpointApi = {
     return client.delete(`/${`${endpointUrl}`}/${id}`)
   },
 
-  updatePassword(body: {
-    oldPassword: string
-    newPassword: string
-  }) {
+  updatePassword(body: { oldPassword: string; newPassword: string }) {
     return client.patch(`${endpointUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(
-      `${endpointUrl}/${ids.toString()}/soft_ids`
-    )
+    return client.delete(`${endpointUrl}/${ids.toString()}/soft_ids`)
   },
 
   deleteManyByIds(ids: string[]) {
@@ -48,9 +40,7 @@ export const endpointApi = {
     return client.get(`${endpointUrl}/me`, {})
   },
 
-  paginate(
-    query?: QueryParams
-  ): Promise<PaginateResponse<Endpoint>> {
+  paginate(query?: QueryParams): Promise<PaginateResponse<Endpoint>> {
     return client.get(`${endpointUrl}/paginate`, query)
   },
 }

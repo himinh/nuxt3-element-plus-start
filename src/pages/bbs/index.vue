@@ -2,13 +2,9 @@
 const route = useRoute()
 const router = useRouter()
 
-const page = ref<number>(
-  route.query.page ? +route.query.page : 1
-)
+const page = ref<number>(route.query.page ? +route.query.page : 1)
 const sorted = ref<string>(
-  route.query.sort_by
-    ? route.query.sort_by.toString()
-    : 'new'
+  route.query.sort_by ? route.query.sort_by.toString() : 'new'
 )
 
 const sortMenus = ref<string[]>(['new', 'top'])
@@ -410,12 +406,9 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleLike = (id: number) => {
-  const index = dataTop.value.findIndex(
-    (dat) => dat.id === id
-  )
+  const index = dataTop.value.findIndex((dat) => dat.id === id)
   if (index !== -1) {
-    dataTop.value[index].issupport =
-      !dataTop.value[index].issupport
+    dataTop.value[index].issupport = !dataTop.value[index].issupport
 
     if (dataTop.value[index].issupport) {
       dataTop.value[index].support_count += 1
@@ -435,9 +428,7 @@ const handleLike = (id: number) => {
       <!-- Main -->
       <el-col :span="18">
         <!-- sort -->
-        <div
-          class="flex items-center bg-white rounded mb-8"
-        >
+        <div class="flex items-center bg-white rounded mb-8">
           <el-text
             v-for="sort in sortMenus"
             :key="sort"
@@ -456,9 +447,7 @@ const handleLike = (id: number) => {
         />
 
         <!-- Pagination -->
-        <div
-          class="flex justify-center items-center mt-5 mb-10"
-        >
+        <div class="flex justify-center items-center mt-5 mb-10">
           <el-pagination
             small
             background

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 interface IProps {
   endTime: string | number
 }
@@ -8,9 +8,8 @@ interface IEmits {
   (e: 'end'): void
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  endTime: '',
-})
+const props = defineProps<IProps>()
+
 const emit = defineEmits<IEmits>()
 
 const formatTime = (endTime: number) => {
@@ -18,12 +17,9 @@ const formatTime = (endTime: number) => {
 
   if (endTime > 0) {
     time.days = Math.floor(endTime / (60 * 60 * 24))
-    time.hours =
-      Math.floor(endTime / (60 * 60)) - time.days * 24
+    time.hours = Math.floor(endTime / (60 * 60)) - time.days * 24
     time.minutes =
-      Math.floor(endTime / 60) -
-      time.days * 24 * 60 -
-      time.hours * 60
+      Math.floor(endTime / 60) - time.days * 24 * 60 - time.hours * 60
     time.seconds =
       Math.floor(endTime) -
       time.days * 24 * 60 * 60 -
@@ -34,13 +30,14 @@ const formatTime = (endTime: number) => {
   time.days = time.days < 10 ? 0 + time.days : time.days
   time.hours = time.minutes =
     time.minutes < 10 ? 0 + time.minutes : time.minutes
-  time.seconds =
-    time.seconds < 10 ? 0 + time.seconds : time.seconds
+  time.seconds = time.seconds < 10 ? 0 + time.seconds : time.seconds
 
   return time
 }
 
-const useSecondsKill = (endTime: string | number) => {
+const useSecondsKill = () => {
+  let endTime = props.endTime
+
   const timeOut = ref(0)
   const timer = ref<NodeJS.Timer | null>(null)
 
@@ -72,13 +69,12 @@ const useSecondsKill = (endTime: string | number) => {
   return d
 }
 
-const data = useSecondsKill(props.endTime)
+const data = useSecondsKill()
 </script>
 
 <template>
   <div class="count-down">
-    <span>{{ data.days }}</span> days
-    <span>{{ data.hours }}</span> :
+    <span>{{ data.days }}</span> days <span>{{ data.hours }}</span> :
     <span>{{ data.minutes }}</span> :
     <span>{{ data.seconds }}</span>
   </div>

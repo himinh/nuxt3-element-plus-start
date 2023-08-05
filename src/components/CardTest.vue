@@ -27,19 +27,13 @@ defineProps<IProps>()
 
     <p class="text-sm font-normal">
       Question count:
-      <span class="font-medium">
-        {{ test.question_count }}</span
-      >
+      <span class="font-medium"> {{ test.question_count }}</span>
 
       Total score:
-      <span class="font-medium">
-        {{ test.total_score }}</span
-      >
+      <span class="font-medium"> {{ test.total_score }}</span>
 
       Pass score:
-      <span class="font-medium">
-        {{ test.pass_score }}</span
-      >
+      <span class="font-medium"> {{ test.pass_score }}</span>
     </p>
 
     <div class="flex justify-end">

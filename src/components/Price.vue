@@ -18,8 +18,6 @@ withDefaults(defineProps<IProps>(), {
         : 'text-rose-500 font-semibold'
     "
   >
-    {{
-      parseFloat(`${value}`) === 0 ? '免费' : '¥' + value
-    }}
+    {{ parseFloat(`${value}`) === 0 ? '免费' : '¥' + value }}
   </span>
 </template>

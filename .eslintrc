@@ -5,6 +5,12 @@
     "es2021": true,
     "node": true
   },
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaFeatures": {
+      "jsx": false
+    }
+  },
   "extends": [
     "@nuxtjs/eslint-config-typescript",
     "plugin:nuxt/recommended",

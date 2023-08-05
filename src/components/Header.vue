@@ -59,20 +59,12 @@ const handleSelectUserOption = (path: string) => {
 
 <template>
   <client-only>
-    <header
-      class="fixed top-0 left-0 z-100 w-full shadow h-[60px] bg-white"
-    >
+    <header class="fixed top-0 left-0 z-100 w-full shadow h-[60px] bg-white">
       <div class="max-w-[1140px] mx-auto">
-        <div
-          container
-          mx-auto
-          class="flex justify-between items-center h-full"
-        >
+        <div container mx-auto class="flex justify-between items-center h-full">
           <!-- logo -->
           <div class="cursor-pointer">
-            <h4 class="text" @click="goHome">
-              IT programming
-            </h4>
+            <h4 class="text" @click="goHome">IT programming</h4>
           </div>
 
           <!-- menus -->
@@ -83,15 +75,9 @@ const handleSelectUserOption = (path: string) => {
               style="border-bottom: 0"
               @select="handleSelectMenu"
             >
-              <template
-                v-for="menu in menus"
-                :key="menu.name"
-              >
+              <template v-for="menu in menus" :key="menu.name">
                 <!-- sub menu -->
-                <el-sub-menu
-                  v-if="menu.subMenus"
-                  :index="menu.path"
-                >
+                <el-sub-menu v-if="menu.subMenus" :index="menu.path">
                   <template #title>
                     {{ menu.name }}
                   </template>
@@ -116,10 +102,7 @@ const handleSelectUserOption = (path: string) => {
             <el-button :icon="Search" circle class="mr-2" />
 
             <!-- users -->
-            <el-dropdown
-              v-if="authUser"
-              @command="handleSelectUserOption"
-            >
+            <el-dropdown v-if="authUser" @command="handleSelectUserOption">
               <el-avatar
                 :size="32"
                 shape="circle"
@@ -139,9 +122,7 @@ const handleSelectUserOption = (path: string) => {
               </template>
             </el-dropdown>
 
-            <el-button v-else plain @click="goLogin">
-              Log in
-            </el-button>
+            <el-button v-else plain @click="goLogin"> Log in </el-button>
           </div>
 
           <!-- users -->

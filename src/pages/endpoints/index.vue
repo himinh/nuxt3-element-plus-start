@@ -3,8 +3,7 @@ import { storeToRefs } from 'pinia'
 
 const endpointStore = useEndpointStore()
 
-const { data, limit, page, sort, pending } =
-  storeToRefs(endpointStore)
+const { data, limit, page, sort, pending } = storeToRefs(endpointStore)
 
 const handleClick = () => {}
 
@@ -34,36 +33,16 @@ const addNew = () => {
   <div class="container">
     <h1>Endpoints</h1>
     <span>loading...: {{ pending }}</span>
-    <el-button type="primary" @click="addNew"
-      >Add new</el-button
-    >
+    <el-button type="primary" @click="addNew">Add new</el-button>
     <el-table :data="data?.data || []" style="width: 100%">
-      <el-table-column
-        prop="method"
-        label="Method"
-        width="120"
-      />
-      <el-table-column
-        prop="path"
-        label="Path"
-        width="120"
-      />
-      <el-table-column
-        fixed="right"
-        label="Operations"
-        width="120"
-      >
+      <el-table-column prop="method" label="Method" width="120" />
+      <el-table-column prop="path" label="Path" width="120" />
+      <el-table-column fixed="right" label="Operations" width="120">
         <template #default>
-          <el-button
-            link
-            type="primary"
-            size="small"
-            @click="handleClick"
+          <el-button link type="primary" size="small" @click="handleClick"
             >Detail</el-button
           >
-          <el-button link type="primary" size="small"
-            >Edit</el-button
-          >
+          <el-button link type="primary" size="small">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
