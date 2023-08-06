@@ -11,12 +11,3 @@ export const getErrorMessage = (data: any) => {
 
   return messages.join('\n')
 }
-
-export const handleError = (error: any) => {
-  ElNotification({
-    title: error.data ? error.data.title : error.name,
-    message: error.data ? getErrorMessage(error.data) : error.message,
-    dangerouslyUseHTMLString: true,
-    type: 'error',
-  })
-}

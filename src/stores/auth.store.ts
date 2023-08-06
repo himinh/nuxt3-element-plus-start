@@ -1,12 +1,12 @@
 import { localStorageHelper } from '~/helpers/local-storage'
 import { AuthUser, Login, Register, Tokens } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
-import { handleError } from '~/helpers/get-error-message'
+import { handleError } from '~/helpers/handle-error'
 
 export const useAuthStore = defineStore('auth', () => {
-  const loading = ref<boolean>(false)
   const authLoading = ref({
     isLoading: ref(),
+    isSendingForgotPassword: ref(),
   })
   const authUser = ref<Tokens | null>(localStorageHelper.getAuth())
 
@@ -100,6 +100,28 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Refresh auth by refreshToken
+   *
+   * @param rfToken
+   * @returns
+   */
+  const forgotPassword = async (email: string) => {
+    const { data, error, pending } = await useAsyncData('forgot-password', () =>
+      authApi.forgotPassword(email)
+    )
+
+    authLoading.value.isSendingForgotPassword = pending
+
+    if (error.value) {
+      handleError(error.value)
+
+      return null
+    }
+
+    return data.value
+  }
+
+  /**
    * Set auth
    *
    * @param data
@@ -117,27 +139,13 @@ export const useAuthStore = defineStore('auth', () => {
     authUser.value = null
   }
 
-  /**
-   * Start loading
-   */
-  const _startLoading = () => {
-    loading.value = true
-  }
-
-  /**
-   * Stop loading
-   */
-  const _stopLoading = () => {
-    loading.value = false
-  }
-
   return {
     authUser,
-    loading,
     authLoading,
     login,
     register,
     logout,
     getAccessToken,
+    forgotPassword,
   }
 })

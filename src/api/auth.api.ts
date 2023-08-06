@@ -37,15 +37,11 @@ export const authApi = {
     return clientFetch.post(`${authUrl}/refresh_token`, { token }, options)
   },
 
-  sendResetPasswordToken(
+  forgotPassword(
     email: string,
     options?: FetchOptions
-  ): Promise<AuthUser> {
-    return clientFetch.post(
-      `${authUrl}/send_reset_password_token`,
-      { email },
-      options
-    )
+  ): Promise<{ email: string }> {
+    return clientFetch.post(`${authUrl}/forgot_password`, { email }, options)
   },
 
   resetPassword(

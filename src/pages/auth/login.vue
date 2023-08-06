@@ -35,6 +35,25 @@ const onSubmit = async (formEl?: FormInstance) => {
   })
 }
 
+const sendForgotPassword = async (formEl?: FormInstance) => {
+  if (!formEl) return
+
+  await formEl.validate(async (valid: boolean) => {
+    if (!valid) return false
+
+    const data = await authStore.forgotPassword(formData.value.email)
+
+    if (data) {
+      ElNotification({
+        message: 'Send forgot password success!',
+        type: 'success',
+        position: 'bottom-right',
+        duration: 2000,
+      })
+    }
+  })
+}
+
 watch(
   () => authUser.value,
   () => {
@@ -95,7 +114,13 @@ watch(
           >Register</el-button
         >
 
-        <el-button size="small" type="primary" link bg
+        <el-button
+          size="small"
+          type="primary"
+          link
+          bg
+          :loading="authLoading.isSendingForgotPassword"
+          @click="sendForgotPassword(formInstance)"
           >Forgot password</el-button
         >
       </div>

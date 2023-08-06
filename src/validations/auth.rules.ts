@@ -5,7 +5,7 @@ export const loginRules = reactive<FormRules<Login>>({
   email: [
     {
       required: true,
-      message: 'Please input email address',
+      message: 'Please input phone/email/username',
       trigger: 'blur',
     },
     {
@@ -18,7 +18,7 @@ export const loginRules = reactive<FormRules<Login>>({
   ],
   password: [
     {
-      required: true,
+      // required: true,
       message: 'Please input password',
       trigger: 'blur',
     },
