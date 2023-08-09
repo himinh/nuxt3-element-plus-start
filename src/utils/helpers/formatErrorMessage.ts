@@ -1,5 +1,5 @@
-export const getErrorMessage = (data: any) => {
-  const messages = data.details.map((message: string) => {
+export const formatErrorMessage = (details: string[]) => {
+  const messages = details.map((message) => {
     const words = message.split(' ')
 
     const label = words[0]

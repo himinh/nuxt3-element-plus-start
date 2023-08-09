@@ -1,5 +1,6 @@
 import { PaginateResponse } from '../types/paginate-reponse'
-import { FetchOptions, QueryParams } from '~/types/fetch'
+import { FetchOptions, QueryParams } from '../utils/fetch/types'
+import { authFetch } from '~/utils/fetch'
 import { User } from '~/types/user'
 
 const userUrl = '/users'

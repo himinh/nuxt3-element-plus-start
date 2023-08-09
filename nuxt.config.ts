@@ -6,9 +6,6 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['stores/**'],
   },
-  alias: {
-    '@types': '/<rootDir>/types',
-  },
 
   // build modules
   modules: [

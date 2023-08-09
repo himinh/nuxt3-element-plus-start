@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { registerRules } from '~/validations/auth.rules'
-import { Gender } from '~/enums/gender'
+import { Gender } from '~/utils/enums/gender'
+import { registerRules } from '~/utils/validations'
 
 useHead({ title: 'Register' })
 definePageMeta({

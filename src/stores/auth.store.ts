@@ -1,14 +1,13 @@
-import { localStorageHelper } from '~/helpers/local-storage'
 import { AuthUser, Login, Register, Tokens } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
-import { handleError } from '~/helpers/handle-error'
+import { localStorageManager, showErrorMessage } from '~/utils/helpers'
 
 export const useAuthStore = defineStore('auth', () => {
   const authLoading = ref({
     isLoading: ref(),
     isSendingForgotPassword: ref(),
   })
-  const authUser = ref<Tokens | null>(localStorageHelper.getAuth())
+  const authUser = ref<Tokens | null>(localStorageManager.getAuth())
 
   /**
    * Login
@@ -23,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     authLoading.value.isLoading = pending
 
-    if (error.value) return handleError(error.value)
+    if (error.value) return showErrorMessage(error.value)
 
     _setAuth(data.value!)
   }
@@ -40,7 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     authLoading.value.isLoading = pending
 
-    if (error.value) return handleError(error.value)
+    if (error.value) return showErrorMessage(error.value)
 
     _setAuth(data.value!)
   }
@@ -93,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
       _setAuth(data)
       return data
     } catch (error) {
-      handleError(error)
+      showErrorMessage(error)
       _clearAuth()
       return null
     }
@@ -113,7 +112,7 @@ export const useAuthStore = defineStore('auth', () => {
     authLoading.value.isSendingForgotPassword = pending
 
     if (error.value) {
-      handleError(error.value)
+      showErrorMessage(error.value)
 
       return null
     }
@@ -128,14 +127,14 @@ export const useAuthStore = defineStore('auth', () => {
    */
   const _setAuth = (data: AuthUser) => {
     authUser.value = { ...authUser.value, ...data }
-    localStorageHelper.setAuth(authUser.value)
+    localStorageManager.setAuth(authUser.value)
   }
 
   /**
    * Clear auth
    */
   const _clearAuth = () => {
-    localStorageHelper.clearAuth()
+    localStorageManager.clearAuth()
     authUser.value = null
   }
 

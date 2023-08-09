@@ -1,42 +1,43 @@
 import { PaginateResponse } from '../types/paginate-reponse'
+import { QueryParams } from '../utils/fetch/types'
+import { authFetch } from '../utils/fetch'
 import { Menu } from '~/types/menu'
-import { QueryParams } from '~/types/fetch'
 
 const menuUrl = '/menus'
 export const menuApi = {
   getAll(query?: QueryParams): Promise<Menu[]> {
-    return client.get(`${menuUrl}`, query)
+    return authFetch.get(`${menuUrl}`, query)
   },
 
   getById(id: string, query?: QueryParams): Promise<Menu> {
-    return client.get(`${menuUrl}/${id}`, query)
+    return authFetch.get(`${menuUrl}/${id}`, query)
   },
 
   create(body: Menu): Promise<Menu> {
-    return client.post(`${menuUrl}`, body)
+    return authFetch.post(`${menuUrl}`, body)
   },
 
   update(id: string, body: Menu): Promise<Menu> {
-    return client.patch(`${menuUrl}/${id}`, body)
+    return authFetch.patch(`${menuUrl}/${id}`, body)
   },
 
   delete(id: string): Promise<Menu> {
-    return client.delete(`/${`${menuUrl}`}/${id}`)
+    return authFetch.delete(`/${`${menuUrl}`}/${id}`)
   },
 
   updatePassword(body: { oldPassword: string; newPassword: string }) {
-    return client.patch(`${menuUrl}/`, body)
+    return authFetch.patch(`${menuUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(`${menuUrl}/${ids.toString()}/soft_ids`)
+    return authFetch.delete(`${menuUrl}/${ids.toString()}/soft_ids`)
   },
 
   deleteManyByIds(ids: string[]) {
-    return client.delete(`${menuUrl}/${ids.toString()}`)
+    return authFetch.delete(`${menuUrl}/${ids.toString()}`)
   },
 
   paginate(query?: QueryParams): Promise<PaginateResponse<Menu>> {
-    return client.get(`${menuUrl}/paginate`, query)
+    return authFetch.get(`${menuUrl}/paginate`, query)
   },
 }

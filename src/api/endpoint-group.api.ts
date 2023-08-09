@@ -1,5 +1,6 @@
 import { PaginateResponse } from '../types/paginate-reponse'
-import { FetchOptions, QueryParams } from '~/types/fetch'
+import { FetchOptions, QueryParams } from '../utils/fetch/types'
+import { httpClient } from '../utils/fetch'
 import { EndpointGroup } from '~/types/endpoint-group'
 
 const endpointGroupUrl = '/endpointGroups'
@@ -8,7 +9,7 @@ export const endpointGroupService = {
     query?: QueryParams,
     options?: FetchOptions
   ): Promise<EndpointGroup[]> {
-    return client.get(`${endpointGroupUrl}`, query, options)
+    return httpClient.get(`${endpointGroupUrl}`, query, options)
   },
 
   getById(
@@ -16,11 +17,11 @@ export const endpointGroupService = {
     query?: QueryParams,
     options?: FetchOptions
   ): Promise<EndpointGroup> {
-    return client.get(`${endpointGroupUrl}/${id}`, query, options)
+    return httpClient.get(`${endpointGroupUrl}/${id}`, query, options)
   },
 
   create(body: EndpointGroup, options?: FetchOptions): Promise<EndpointGroup> {
-    return client.post(`${endpointGroupUrl}`, body, options)
+    return httpClient.post(`${endpointGroupUrl}`, body, options)
   },
 
   update(
@@ -28,33 +29,33 @@ export const endpointGroupService = {
     body: EndpointGroup,
     options?: FetchOptions
   ): Promise<EndpointGroup> {
-    return client.patch(`${endpointGroupUrl}/${id}`, body, options)
+    return httpClient.patch(`${endpointGroupUrl}/${id}`, body, options)
   },
 
   delete(id: string): Promise<EndpointGroup> {
-    return client.delete(`/${`${endpointGroupUrl}`}/${id}`)
+    return httpClient.delete(`/${`${endpointGroupUrl}`}/${id}`)
   },
 
   updatePassword(body: { oldPassword: string; newPassword: string }) {
-    return client.patch(`${endpointGroupUrl}/`, body)
+    return httpClient.patch(`${endpointGroupUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(`${endpointGroupUrl}/${ids.toString()}/soft_ids`)
+    return httpClient.delete(`${endpointGroupUrl}/${ids.toString()}/soft_ids`)
   },
 
   deleteManyByIds(ids: string[]) {
-    return client.delete(`${endpointGroupUrl}/${ids.toString()}`)
+    return httpClient.delete(`${endpointGroupUrl}/${ids.toString()}`)
   },
 
   getMe() {
-    return client.get(`${endpointGroupUrl}/me`, {})
+    return httpClient.get(`${endpointGroupUrl}/me`, {})
   },
 
   paginate(
     query?: QueryParams,
     options?: FetchOptions
   ): Promise<PaginateResponse<EndpointGroup>> {
-    return client.get(`${endpointGroupUrl}/paginate`, query, options)
+    return httpClient.get(`${endpointGroupUrl}/paginate`, query, options)
   },
 }

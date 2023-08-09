@@ -1,46 +1,47 @@
 import { PaginateResponse } from '../types/paginate-reponse'
+import { QueryParams } from '../utils/fetch/types'
+import { authFetch } from '~/utils/fetch'
 import { Endpoint } from '~/types/endpoint'
-import { QueryParams } from '~/types/fetch'
 
 const endpointUrl = '/endpoints'
 export const endpointApi = {
   getAll(query?: QueryParams): Promise<Endpoint[]> {
-    return client.get(`${endpointUrl}`, query)
+    return authFetch.get(`${endpointUrl}`, query)
   },
 
   getById(id: string, query?: QueryParams): Promise<Endpoint> {
-    return client.get(`${endpointUrl}/${id}`, query)
+    return authFetch.get(`${endpointUrl}/${id}`, query)
   },
 
   create(body: Endpoint): Promise<Endpoint> {
-    return client.post(`${endpointUrl}`, body)
+    return authFetch.post(`${endpointUrl}`, body)
   },
 
   update(id: string, body: Endpoint): Promise<Endpoint> {
-    return client.patch(`${endpointUrl}/${id}`, body)
+    return authFetch.patch(`${endpointUrl}/${id}`, body)
   },
 
   delete(id: string): Promise<Endpoint> {
-    return client.delete(`/${`${endpointUrl}`}/${id}`)
+    return authFetch.delete(`/${`${endpointUrl}`}/${id}`)
   },
 
   updatePassword(body: { oldPassword: string; newPassword: string }) {
-    return client.patch(`${endpointUrl}/`, body)
+    return authFetch.patch(`${endpointUrl}/`, body)
   },
 
   deleteManySoftByIds(ids: string[]) {
-    return client.delete(`${endpointUrl}/${ids.toString()}/soft_ids`)
+    return authFetch.delete(`${endpointUrl}/${ids.toString()}/soft_ids`)
   },
 
   deleteManyByIds(ids: string[]) {
-    return client.delete(`${endpointUrl}/${ids.toString()}`)
+    return authFetch.delete(`${endpointUrl}/${ids.toString()}`)
   },
 
   getMe() {
-    return client.get(`${endpointUrl}/me`, {})
+    return authFetch.get(`${endpointUrl}/me`, {})
   },
 
   paginate(query?: QueryParams): Promise<PaginateResponse<Endpoint>> {
-    return client.get(`${endpointUrl}/paginate`, query)
+    return authFetch.get(`${endpointUrl}/paginate`, query)
   },
 }

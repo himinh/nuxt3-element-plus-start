@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { loginRules } from '~/validations/auth.rules'
+import { loginRules } from '~/utils/validations'
 
 useHead({ title: 'Log In' })
 definePageMeta({

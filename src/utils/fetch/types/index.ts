@@ -27,9 +27,6 @@ export type FetchOptions = {
     | 'unsafe-url'
   integrity?: string
   baseURL?: string
-}
-
-export type FetchInstanceOptions = FetchOptions & {
   query?: QueryParams
   method?: MethodType
   body?: any
