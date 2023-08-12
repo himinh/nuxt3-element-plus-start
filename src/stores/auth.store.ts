@@ -3,10 +3,12 @@ import { authApi } from '~/api/auth.api'
 import { localStorageManager, showErrorMessage } from '~/utils/helpers'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authLoading = ref({
+  const authState = ref({
     isLoading: ref(),
-    isSendingForgotPassword: ref(),
+    isLoadingForgotPass: ref(),
   })
+  const forgotPassSent = ref(false)
+
   const authUser = ref<Tokens | null>(localStorageManager.getAuth())
 
   /**
@@ -20,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
       authApi.login(inputs)
     )
 
-    authLoading.value.isLoading = pending
+    authState.value.isLoading = pending
 
     if (error.value) return showErrorMessage(error.value)
 
@@ -37,7 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
       authApi.register(inputs)
     )
 
-    authLoading.value.isLoading = pending
+    authState.value.isLoading = pending
 
     if (error.value) return showErrorMessage(error.value)
 
@@ -109,13 +111,15 @@ export const useAuthStore = defineStore('auth', () => {
       authApi.forgotPassword(email)
     )
 
-    authLoading.value.isSendingForgotPassword = pending
+    authState.value.isLoadingForgotPass = pending
 
     if (error.value) {
       showErrorMessage(error.value)
 
       return null
     }
+
+    setForgotPassSent(true)
 
     return data.value
   }
@@ -138,13 +142,19 @@ export const useAuthStore = defineStore('auth', () => {
     authUser.value = null
   }
 
+  const setForgotPassSent = (isSent: boolean) => {
+    forgotPassSent.value = isSent
+  }
+
   return {
     authUser,
-    authLoading,
+    authState,
     login,
     register,
     logout,
     getAccessToken,
+    setForgotPassSent,
     forgotPassword,
+    forgotPassSent,
   }
 })

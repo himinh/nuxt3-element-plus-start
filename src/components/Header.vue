@@ -59,7 +59,7 @@ const handleSelectUserOption = (path: string) => {
 
 <template>
   <client-only>
-    <header class="fixed top-0 left-0 z-100 w-full shadow h-[60px] bg-white">
+    <header class="fixed top-0 left-0 z-100 w-full shadow h-[60px]">
       <div class="max-w-[1140px] mx-auto">
         <div container mx-auto class="flex justify-between items-center h-full">
           <!-- logo -->

@@ -44,7 +44,7 @@ const data = [
 </script>
 
 <template>
-  <section class="shadow bg-white rounded mb-5">
+  <section class="shadow rounded mb-5">
     <div class="p-3 title-box">
       <h4 class="text-sm font-medium m-0">Recommended</h4>
     </div>

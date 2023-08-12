@@ -15,7 +15,7 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authLoading, authUser } = storeToRefs(authStore)
+const { authState, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form || ''
 
 const onSubmit = async (formEl?: FormInstance) => {
@@ -41,16 +41,7 @@ const sendForgotPassword = async (formEl?: FormInstance) => {
   await formEl.validate(async (valid: boolean) => {
     if (!valid) return false
 
-    const data = await authStore.forgotPassword(formData.value.email)
-
-    if (data) {
-      ElNotification({
-        message: 'Send forgot password success!',
-        type: 'success',
-        position: 'bottom-right',
-        duration: 2000,
-      })
-    }
+    await authStore.forgotPassword(formData.value.email)
   })
 }
 
@@ -86,7 +77,7 @@ watch(
       status-icon
       :rules="loginRules"
       size="large"
-      @submit="onSubmit(formInstance)"
+      @submit.prevent="onSubmit(formInstance)"
     >
       <el-form-item prop="email">
         <el-input
@@ -119,7 +110,7 @@ watch(
           type="primary"
           link
           bg
-          :loading="authLoading.isSendingForgotPassword"
+          :loading="authState.isLoadingForgotPass"
           @click="sendForgotPassword(formInstance)"
           >Forgot password</el-button
         >
@@ -132,7 +123,7 @@ watch(
           native-type="submit"
           w-full
           mt-2
-          :loading="authLoading.isLoading"
+          :loading="authState.isLoading"
           @click="onSubmit(formInstance)"
           >Login</el-button
         >

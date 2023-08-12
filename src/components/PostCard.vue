@@ -37,7 +37,7 @@ const handleLike = () => {
 </script>
 
 <template>
-  <div class="border-b p-5 mb-3 bg-white rounded">
+  <div class="border-b p-5 mb-3 rounded">
     <div class="cursor-pointer">
       <el-tag v-if="post.is_top" size="small" type="success">Top</el-tag>
       <el-text>{{ post.desc.text }}</el-text>

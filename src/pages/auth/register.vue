@@ -16,7 +16,7 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authLoading, authUser } = storeToRefs(authStore)
+const { authState, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form
 
 const onSubmit = (formEl?: FormInstance) => {
@@ -54,7 +54,7 @@ watch(
       status-icon
       :rules="registerRules"
       size="large"
-      @submit="onSubmit(formInstance)"
+      @submit.prevent="onSubmit(formInstance)"
     >
       <el-form-item prop="fullName">
         <el-input
@@ -142,7 +142,7 @@ watch(
           w-full
           mt-2
           native-type="submit"
-          :loading="authLoading.isLoading"
+          :loading="authState.isLoading"
           @click="onSubmit(formInstance)"
           >Register</el-button
         >
