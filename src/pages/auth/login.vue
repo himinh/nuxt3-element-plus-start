@@ -129,6 +129,7 @@ watch(
         <el-button
           size="default"
           type="primary"
+          native-type="submit"
           w-full
           mt-2
           :loading="authLoading.isLoading"

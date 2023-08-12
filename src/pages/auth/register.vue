@@ -141,6 +141,7 @@ watch(
           type="primary"
           w-full
           mt-2
+          native-type="submit"
           :loading="authLoading.isLoading"
           @click="onSubmit(formInstance)"
           >Register</el-button
