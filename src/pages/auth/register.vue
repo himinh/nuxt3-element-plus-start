@@ -16,13 +16,13 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authState, authUser } = storeToRefs(authStore)
+const { loading, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form
 
-const onSubmit = (formEl?: FormInstance) => {
+const onSubmit = async (formEl?: FormInstance) => {
   if (!formEl) return
 
-  formEl.validate((valid) => {
+  await formEl.validate((valid) => {
     if (valid) authStore.register(formData.value)
   })
 }
@@ -142,8 +142,7 @@ watch(
           w-full
           mt-2
           native-type="submit"
-          :loading="authState.isLoading"
-          @click="onSubmit(formInstance)"
+          :loading="loading"
           >Register</el-button
         >
       </el-form-item>

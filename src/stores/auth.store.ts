@@ -1,15 +1,15 @@
-import { AuthUser, Login, Register, Tokens } from '~/types/auth'
+import { AuthUser, Login, Register, ResetPassword, Tokens } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
 import { localStorageManager, showErrorMessage } from '~/utils/helpers'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authState = ref({
-    isLoading: ref(),
-    isLoadingForgotPass: ref(),
+  const forgotPassSent = reactive({
+    isSent: false,
+    email: '',
   })
-  const forgotPassSent = ref(false)
 
   const authUser = ref<Tokens | null>(localStorageManager.getAuth())
+  const loading = ref<boolean>(false)
 
   /**
    * Login
@@ -18,15 +18,9 @@ export const useAuthStore = defineStore('auth', () => {
    * @returns
    */
   const login = async (inputs: Login) => {
-    const { data, error, pending } = await useAsyncData(() =>
-      authApi.login(inputs)
-    )
+    const data = await _asyncHandler(() => authApi.login(inputs))
 
-    authState.value.isLoading = pending
-
-    if (error.value) return showErrorMessage(error.value)
-
-    _setAuth(data.value!)
+    if (data) _setAuth(data)
   }
 
   /**
@@ -35,17 +29,10 @@ export const useAuthStore = defineStore('auth', () => {
    * @param inputs
    */
   const register = async (inputs: Register) => {
-    const { data, error, pending } = await useAsyncData(() =>
-      authApi.register(inputs)
-    )
+    const data = await _asyncHandler(() => authApi.register(inputs))
 
-    authState.value.isLoading = pending
-
-    if (error.value) return showErrorMessage(error.value)
-
-    _setAuth(data.value!)
+    if (data) _setAuth(data.value!)
   }
-
   /**
    * Logout
    */
@@ -54,6 +41,33 @@ export const useAuthStore = defineStore('auth', () => {
 
     navigateTo('/auth/login')
     _clearAuth()
+  }
+
+  /**
+   * Forgot pass
+   *
+   * @param rfToken
+   * @returns
+   */
+  const forgotPassword = async (email: string) => {
+    const data = await _asyncHandler(() => authApi.forgotPassword(email))
+
+    if (data) setForgotPassSent(true, data.email)
+  }
+
+  /**
+   * Reset password
+   *
+   * @param inputs
+   */
+  const resetPassword = async (inputs: ResetPassword) => {
+    const data = await _asyncHandler(() => authApi.resetPassword(inputs))
+
+    if (data) {
+      _setAuth(data)
+
+      return data
+    }
   }
 
   /**
@@ -91,37 +105,17 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshAuthByRfToken = async (rfToken: string) => {
     try {
       const data = await authApi.refreshToken(rfToken)
+
       _setAuth(data)
+
       return data
     } catch (error) {
       showErrorMessage(error)
+
       _clearAuth()
-      return null
-    }
-  }
-
-  /**
-   * Refresh auth by refreshToken
-   *
-   * @param rfToken
-   * @returns
-   */
-  const forgotPassword = async (email: string) => {
-    const { data, error, pending } = await useAsyncData('forgot-password', () =>
-      authApi.forgotPassword(email)
-    )
-
-    authState.value.isLoadingForgotPass = pending
-
-    if (error.value) {
-      showErrorMessage(error.value)
 
       return null
     }
-
-    setForgotPassSent(true)
-
-    return data.value
   }
 
   /**
@@ -142,13 +136,36 @@ export const useAuthStore = defineStore('auth', () => {
     authUser.value = null
   }
 
-  const setForgotPassSent = (isSent: boolean) => {
-    forgotPassSent.value = isSent
+  const setForgotPassSent = (isSent: boolean, email?: string) => {
+    forgotPassSent.isSent = isSent
+
+    if (email) forgotPassSent.email = email
+  }
+
+  /**
+   * async handler
+   *
+   * @param handler
+   * @returns
+   */
+  const _asyncHandler = async (handler: () => Promise<any>) => {
+    loading.value = true
+
+    const { data, error } = await useAsyncData(handler)
+
+    loading.value = false
+
+    if (error.value) {
+      showErrorMessage(error.value)
+      return null
+    }
+
+    return data.value
   }
 
   return {
     authUser,
-    authState,
+    loading,
     login,
     register,
     logout,
@@ -156,5 +173,6 @@ export const useAuthStore = defineStore('auth', () => {
     setForgotPassSent,
     forgotPassword,
     forgotPassSent,
+    resetPassword,
   }
 })

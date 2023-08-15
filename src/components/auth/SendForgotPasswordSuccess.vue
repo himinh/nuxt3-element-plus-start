@@ -8,15 +8,15 @@ const { forgotPassSent } = storeToRefs(authStore)
 
 <template>
   <el-dialog
-    v-model="forgotPassSent"
+    v-model="forgotPassSent.isSent"
     title="Instructions Sent"
     class="min-w-xs max-w-md"
     align-center
   >
     <span
       >We sent instructions to change your password to
-      <strong>minhchiu.official@gmail.com</strong>, please check both your inbox
-      and spam folder.</span
+      <strong>{{ forgotPassSent.email }}</strong
+      >, please check both your inbox and spam folder.</span
     >
 
     <template #footer>

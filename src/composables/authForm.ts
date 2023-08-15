@@ -1,4 +1,4 @@
-import { Register } from 'src/types/auth'
+import { Register } from '~/types/auth'
 
 export const useAuthForm = () => {
   const formData = useState<Register>('authForm', () => ({
@@ -23,5 +23,8 @@ export const useAuthForm = () => {
     }
   }
 
-  return { formData, resetFormData }
+  return {
+    formData,
+    resetFormData,
+  }
 }

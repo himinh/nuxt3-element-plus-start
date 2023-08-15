@@ -1,4 +1,6 @@
-export const formatErrorMessage = (details: string[]) => {
+import { ErrorType } from '../enums/errorType'
+
+export const formatErrorMessage = (details: string[], errorType: string) => {
   const messages = details.map((message) => {
     const words = message.split(' ')
 
@@ -6,7 +8,13 @@ export const formatErrorMessage = (details: string[]) => {
 
     const msg = words.slice(1).join(' ')
 
-    return `<p><b>${label}</b>:  ${msg}</p>`
+    switch (errorType) {
+      case ErrorType.ValidationExceptions:
+        return `<p><b>${label}</b>:  ${msg}</p>`
+
+      default:
+        return message
+    }
   })
 
   return messages.join('\n')

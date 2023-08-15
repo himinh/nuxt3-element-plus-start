@@ -15,7 +15,7 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authState, authUser } = storeToRefs(authStore)
+const { loading, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form || ''
 
 const onSubmit = async (formEl?: FormInstance) => {
@@ -30,8 +30,6 @@ const onSubmit = async (formEl?: FormInstance) => {
     }
 
     authStore.login(user)
-
-    return true
   })
 }
 
@@ -110,7 +108,7 @@ watch(
           type="primary"
           link
           bg
-          :loading="authState.isLoadingForgotPass"
+          :loading="loading"
           @click="sendForgotPassword(formInstance)"
           >Forgot password</el-button
         >
@@ -123,8 +121,7 @@ watch(
           native-type="submit"
           w-full
           mt-2
-          :loading="authState.isLoading"
-          @click="onSubmit(formInstance)"
+          :loading="loading"
           >Login</el-button
         >
       </el-form-item>
