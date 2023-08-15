@@ -21,7 +21,7 @@ const open = () => {
 </script>
 
 <template>
-  <section class="flex p-5 items-stretch mb-5 bg-white shadow rounded">
+  <section class="flex p-5 items-stretch mb-5 shadow rounded">
     <el-image
       :src="item.cover"
       fit="cover"

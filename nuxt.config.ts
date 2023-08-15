@@ -6,9 +6,6 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['stores/**'],
   },
-  alias: {
-    '@types': '/<rootDir>/types',
-  },
 
   // build modules
   modules: [
@@ -72,6 +69,7 @@ export default defineNuxtConfig({
   elementPlus: {
     icon: 'ElIcon',
     importStyle: 'scss',
+    themes: ['dark'],
   },
 
   // localization - i18n config

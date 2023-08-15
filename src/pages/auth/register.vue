@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { registerRules } from '~/validations/auth.rules'
-import { Gender } from '~/enums/gender'
+import { Gender } from '~/utils/enums/gender'
+import { registerRules } from '~/utils/validations'
 
 useHead({ title: 'Register' })
 definePageMeta({
@@ -16,13 +16,13 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authLoading, authUser } = storeToRefs(authStore)
+const { loading, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form
 
-const onSubmit = (formEl?: FormInstance) => {
+const onSubmit = async (formEl?: FormInstance) => {
   if (!formEl) return
 
-  formEl.validate((valid) => {
+  await formEl.validate((valid) => {
     if (valid) authStore.register(formData.value)
   })
 }
@@ -54,7 +54,7 @@ watch(
       status-icon
       :rules="registerRules"
       size="large"
-      @submit="onSubmit(formInstance)"
+      @submit.prevent="onSubmit(formInstance)"
     >
       <el-form-item prop="fullName">
         <el-input
@@ -141,8 +141,8 @@ watch(
           type="primary"
           w-full
           mt-2
-          :loading="authLoading.isLoading"
-          @click="onSubmit(formInstance)"
+          native-type="submit"
+          :loading="loading"
           >Register</el-button
         >
       </el-form-item>

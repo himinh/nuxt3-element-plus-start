@@ -1,11 +1,12 @@
 import { PaginateResponse } from '../types/paginate-reponse'
-import { FetchOptions, QueryParams } from '~/types/fetch'
+import { FetchOptions, QueryParams } from '../utils/fetch/types'
+import { authFetch, httpClient } from '~/utils/fetch'
 import { User } from '~/types/user'
 
 const userUrl = '/users'
 export const userApi = {
   getAll(query?: QueryParams, options?: FetchOptions): Promise<User[]> {
-    return authFetch.get(`${userUrl}`, query, options)
+    return httpClient.get(`${userUrl}`, query, options)
   },
 
   getById(

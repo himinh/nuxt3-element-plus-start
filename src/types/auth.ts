@@ -8,6 +8,8 @@ export type Login = {
 export type Register = Login &
   Pick<User, 'fullName' | 'dateOfBirth' | 'gender' | 'username' | 'phone'>
 
+export type ResetPassword = Pick<Login, 'password'> & { token: string }
+
 export type Token = {
   token: string
   expiresAt: number

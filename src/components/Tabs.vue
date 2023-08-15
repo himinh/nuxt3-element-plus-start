@@ -36,7 +36,7 @@ const handleClick = (slug: string) => {
 </script>
 
 <template>
-  <div class="flex items-center bg-white rounded mb-5">
+  <div class="flex items-center rounded mb-5">
     <el-text
       v-for="tab in tabList"
       :key="tab.id"

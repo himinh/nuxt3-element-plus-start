@@ -14,7 +14,7 @@ defineProps<IProps>()
 </script>
 
 <template>
-  <div class="bg-white rounded shadow mb-5 p-5">
+  <div class="rounded shadow mb-5 p-5">
     <div class="flex items-center justify-between">
       <span class="text-sm">
         {{ test.title }}

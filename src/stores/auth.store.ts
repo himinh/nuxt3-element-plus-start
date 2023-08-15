@@ -1,14 +1,15 @@
-import { localStorageHelper } from '~/helpers/local-storage'
-import { AuthUser, Login, Register, Tokens } from '~/types/auth'
+import { AuthUser, Login, Register, ResetPassword, Tokens } from '~/types/auth'
 import { authApi } from '~/api/auth.api'
-import { handleError } from '~/helpers/get-error-message'
+import { localStorageManager, showErrorMessage } from '~/utils/helpers'
 
 export const useAuthStore = defineStore('auth', () => {
-  const loading = ref<boolean>(false)
-  const authLoading = ref({
-    isLoading: ref(),
+  const forgotPassSent = reactive({
+    isSent: false,
+    email: '',
   })
-  const authUser = ref<Tokens | null>(localStorageHelper.getAuth())
+
+  const authUser = ref<Tokens | null>(localStorageManager.getAuth())
+  const loading = ref<boolean>(false)
 
   /**
    * Login
@@ -17,15 +18,9 @@ export const useAuthStore = defineStore('auth', () => {
    * @returns
    */
   const login = async (inputs: Login) => {
-    const { data, error, pending } = await useAsyncData(() =>
-      authApi.login(inputs)
-    )
+    const data = await _asyncHandler(() => authApi.login(inputs))
 
-    authLoading.value.isLoading = pending
-
-    if (error.value) return handleError(error.value)
-
-    _setAuth(data.value!)
+    if (data) _setAuth(data)
   }
 
   /**
@@ -34,17 +29,10 @@ export const useAuthStore = defineStore('auth', () => {
    * @param inputs
    */
   const register = async (inputs: Register) => {
-    const { data, error, pending } = await useAsyncData(() =>
-      authApi.register(inputs)
-    )
+    const data = await _asyncHandler(() => authApi.register(inputs))
 
-    authLoading.value.isLoading = pending
-
-    if (error.value) return handleError(error.value)
-
-    _setAuth(data.value!)
+    if (data) _setAuth(data.value!)
   }
-
   /**
    * Logout
    */
@@ -53,6 +41,33 @@ export const useAuthStore = defineStore('auth', () => {
 
     navigateTo('/auth/login')
     _clearAuth()
+  }
+
+  /**
+   * Forgot pass
+   *
+   * @param rfToken
+   * @returns
+   */
+  const forgotPassword = async (email: string) => {
+    const data = await _asyncHandler(() => authApi.forgotPassword(email))
+
+    if (data) setForgotPassSent(true, data.email)
+  }
+
+  /**
+   * Reset password
+   *
+   * @param inputs
+   */
+  const resetPassword = async (inputs: ResetPassword) => {
+    const data = await _asyncHandler(() => authApi.resetPassword(inputs))
+
+    if (data) {
+      _setAuth(data)
+
+      return data
+    }
   }
 
   /**
@@ -90,11 +105,15 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshAuthByRfToken = async (rfToken: string) => {
     try {
       const data = await authApi.refreshToken(rfToken)
+
       _setAuth(data)
+
       return data
     } catch (error) {
-      handleError(error)
+      showErrorMessage(error)
+
       _clearAuth()
+
       return null
     }
   }
@@ -106,38 +125,54 @@ export const useAuthStore = defineStore('auth', () => {
    */
   const _setAuth = (data: AuthUser) => {
     authUser.value = { ...authUser.value, ...data }
-    localStorageHelper.setAuth(authUser.value)
+    localStorageManager.setAuth(authUser.value)
   }
 
   /**
    * Clear auth
    */
   const _clearAuth = () => {
-    localStorageHelper.clearAuth()
+    localStorageManager.clearAuth()
     authUser.value = null
   }
 
-  /**
-   * Start loading
-   */
-  const _startLoading = () => {
-    loading.value = true
+  const setForgotPassSent = (isSent: boolean, email?: string) => {
+    forgotPassSent.isSent = isSent
+
+    if (email) forgotPassSent.email = email
   }
 
   /**
-   * Stop loading
+   * async handler
+   *
+   * @param handler
+   * @returns
    */
-  const _stopLoading = () => {
+  const _asyncHandler = async (handler: () => Promise<any>) => {
+    loading.value = true
+
+    const { data, error } = await useAsyncData(handler)
+
     loading.value = false
+
+    if (error.value) {
+      showErrorMessage(error.value)
+      return null
+    }
+
+    return data.value
   }
 
   return {
     authUser,
     loading,
-    authLoading,
     login,
     register,
     logout,
     getAccessToken,
+    setForgotPassSent,
+    forgotPassword,
+    forgotPassSent,
+    resetPassword,
   }
 })

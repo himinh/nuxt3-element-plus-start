@@ -3,15 +3,7 @@
   "extends": "./.nuxt/tsconfig.json",
 
   "compilerOptions": {
-    "baseUrl": "./",
-    "target": "es6"
-    // "paths": {
-    //   "~utils/*": ["./src/utils/*"],
-    //   "~types/*": ["./src/types/*"],
-    //   "~enums/*": ["./src/enums/*"],
-    //   "~constants/*": ["./src/constants/*"],
-    //   "~services/*": ["./src/services/*"],
-    //   "~helpers/*": ["./src/helpers/*"]
-    // }
+    "target": "es6",
+    "baseUrl": "~/"
   }
 }

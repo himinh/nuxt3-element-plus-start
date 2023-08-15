@@ -26,7 +26,7 @@ defineProps<IProp>()
 </script>
 
 <template>
-  <div class="cursor-pointer bg-white rounded shadow mb-4">
+  <div class="cursor-pointer rounded shadow mb-4">
     <!-- image -->
     <el-image
       :src="item.cover"

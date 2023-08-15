@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { loginRules } from '~/validations/auth.rules'
+import { loginRules } from '~/utils/validations'
 
 useHead({ title: 'Log In' })
 definePageMeta({
@@ -15,7 +15,7 @@ const authStore = useAuthStore()
 const formInstance = ref<FormInstance>()
 
 const { formData, resetFormData } = useAuthForm()
-const { authLoading, authUser } = storeToRefs(authStore)
+const { loading, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form || ''
 
 const onSubmit = async (formEl?: FormInstance) => {
@@ -30,8 +30,16 @@ const onSubmit = async (formEl?: FormInstance) => {
     }
 
     authStore.login(user)
+  })
+}
 
-    return true
+const sendForgotPassword = async (formEl?: FormInstance) => {
+  if (!formEl) return
+
+  await formEl.validate(async (valid: boolean) => {
+    if (!valid) return false
+
+    await authStore.forgotPassword(formData.value.email)
   })
 }
 
@@ -67,7 +75,7 @@ watch(
       status-icon
       :rules="loginRules"
       size="large"
-      @submit="onSubmit(formInstance)"
+      @submit.prevent="onSubmit(formInstance)"
     >
       <el-form-item prop="email">
         <el-input
@@ -95,7 +103,13 @@ watch(
           >Register</el-button
         >
 
-        <el-button size="small" type="primary" link bg
+        <el-button
+          size="small"
+          type="primary"
+          link
+          bg
+          :loading="loading"
+          @click="sendForgotPassword(formInstance)"
           >Forgot password</el-button
         >
       </div>
@@ -104,10 +118,10 @@ watch(
         <el-button
           size="default"
           type="primary"
+          native-type="submit"
           w-full
           mt-2
-          :loading="authLoading.isLoading"
-          @click="onSubmit(formInstance)"
+          :loading="loading"
           >Login</el-button
         >
       </el-form-item>

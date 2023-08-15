@@ -428,7 +428,7 @@ const handleLike = (id: number) => {
       <!-- Main -->
       <el-col :span="18">
         <!-- sort -->
-        <div class="flex items-center bg-white rounded mb-8">
+        <div class="flex items-center rounded mb-8">
           <el-text
             v-for="sort in sortMenus"
             :key="sort"

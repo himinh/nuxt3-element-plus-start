@@ -1,7 +1,4 @@
-<script lang="ts" setup>
-// const authStore = useAuthStore()
-// await authStore.getAcToken()
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <NuxtLayout>
