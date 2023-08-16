@@ -41,7 +41,6 @@ const { authUser } = storeToRefs(authStore)
 const mainPath = `/${route.fullPath.split('/')[1]}`
 const activeIndex = ref(mainPath)
 
-const handleLogout = () => authStore.logout()
 const goHome = () => navigateTo('/')
 const goLogin = () => navigateTo('/auth/login')
 const handleSelectMenu = (path: string) => navigateTo(path)
