@@ -1,5 +1,5 @@
-import { MenuLevel } from '~/enums/menu-level'
-import { Role } from '~/enums/role'
+import { MenuLevel } from '~/utils/enums/menuLevel'
+import { Role } from '~/utils/enums/role'
 
 export type Menu = {
   readonly parentId?: string
@@ -7,8 +7,9 @@ export type Menu = {
   readonly prefix: string
   readonly icon?: string
   readonly level: MenuLevel
-  readonly url?: string
+  readonly url: string
   readonly isHorizontal: boolean
   readonly isShow: boolean
   readonly roles: Role[]
+  readonly subMenus: Menu[]
 }

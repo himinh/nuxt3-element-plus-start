@@ -16,12 +16,8 @@ const { count, dec, inc } = useCount()
 //   await authApi.register({authType: AuthType.EMAIL, authKey: "minh@gmail.com", password: 'minh'})
 // }
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+const handleOpen = (key: string, keyPath: string[]) => {}
+const handleClose = (key: string, keyPath: string[]) => {}
 </script>
 
 <template>
