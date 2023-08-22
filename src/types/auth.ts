@@ -5,7 +5,7 @@ export type Login = {
   email: string
 }
 
-export type LoginWithSocial = {
+export type SocialLogin = {
   socialID: string
   deviceID: string | null
 } & Pick<

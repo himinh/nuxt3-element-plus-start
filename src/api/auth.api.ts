@@ -1,12 +1,6 @@
 import { FetchOptions } from '../utils/fetch/types'
 import { authFetch, httpClient } from '~/utils/fetch'
-import {
-  Tokens,
-  AuthUser,
-  Login,
-  Register,
-  LoginWithSocial,
-} from '~/types/auth'
+import { Tokens, AuthUser, Login, Register, SocialLogin } from '~/types/auth'
 
 const authUrl = '/auth'
 export const authApi = {
@@ -14,11 +8,8 @@ export const authApi = {
     return httpClient.post(`${authUrl}/login`, data, options)
   },
 
-  loginWithSocial(
-    data: LoginWithSocial,
-    options?: FetchOptions
-  ): Promise<AuthUser> {
-    return httpClient.post(`${authUrl}/login_with_social`, data, options)
+  socialLogin(data: SocialLogin, options?: FetchOptions): Promise<AuthUser> {
+    return httpClient.post(`${authUrl}/social_login`, data, options)
   },
 
   register(data: Register, options?: FetchOptions): Promise<AuthUser> {

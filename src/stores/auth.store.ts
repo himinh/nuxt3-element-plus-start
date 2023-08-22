@@ -1,7 +1,7 @@
 import {
   AuthUser,
   Login,
-  LoginWithSocial,
+  SocialLogin,
   Register,
   ResetPassword,
   Tokens,
@@ -30,8 +30,8 @@ export const useAuthStore = defineStore('auth', () => {
     if (data) _setAuth(data)
   }
 
-  const loginWithSocial = async (inputs: LoginWithSocial) => {
-    const data = await _asyncHandler(() => authApi.loginWithSocial(inputs))
+  const socialLogin = async (inputs: SocialLogin) => {
+    const data = await _asyncHandler(() => authApi.socialLogin(inputs))
 
     if (data) _setAuth(data)
   }
@@ -187,6 +187,6 @@ export const useAuthStore = defineStore('auth', () => {
     forgotPassword,
     forgotPassSent,
     resetPassword,
-    loginWithSocial,
+    socialLogin,
   }
 })

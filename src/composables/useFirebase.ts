@@ -6,13 +6,13 @@ import {
   getAuth,
   signOut,
 } from 'firebase/auth'
-import { LoginWithSocial } from '~/types'
+import { SocialLogin } from '~/types'
 import { AccountType } from '~/utils/enums/accountType'
 import { Gender } from '~/utils/enums/gender'
 
 export const useFirebase = () => {
   const config = useRuntimeConfig()
-  const { loginWithSocial } = useAuthStore()
+  const { socialLogin } = useAuthStore()
 
   const app = initializeApp(config.public.firebaseConfig)
 
@@ -35,7 +35,7 @@ export const useFirebase = () => {
 
     const { user } = await signInWithPopup(auth, provider)
 
-    const userItem: LoginWithSocial = {
+    const userItem: SocialLogin = {
       socialID: user.uid,
       fullName: user.displayName,
       accountType: AccountType.GOOGLE,
@@ -46,7 +46,7 @@ export const useFirebase = () => {
       deviceID: null,
     }
 
-    await loginWithSocial(userItem)
+    await socialLogin(userItem)
   }
 
   /**
