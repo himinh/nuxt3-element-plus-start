@@ -18,6 +18,7 @@ const formInstance = ref<FormInstance>()
 const { formData, resetFormData } = useAuthForm()
 const { loading, authUser } = storeToRefs(authStore)
 const from = <string>route.query.form
+const checked = ref(true)
 
 const onSubmit = async (formEl?: FormInstance) => {
   if (!formEl) return
@@ -47,7 +48,7 @@ watch(
 </script>
 
 <template>
-  <div class="w-[340px]">
+  <div class="w-[390px]">
     <el-form
       ref="formInstance"
       :model="formData"
@@ -109,7 +110,7 @@ watch(
         />
       </el-form-item>
 
-      <el-form-item prop="gender">
+      <el-form-item prop="gender" class="mb-2!">
         <el-radio-group
           v-model="formData.gender"
           style="width: 100%; display: flex; justify-content: space-between"
@@ -120,22 +121,16 @@ watch(
         </el-radio-group>
       </el-form-item>
 
-      <div class="flex justify-between">
-        <el-button
-          size="small"
-          type="primary"
-          link
-          bg
-          @click="navigateTo('/auth/login')"
-          >Log In</el-button
-        >
-
-        <el-button size="small" type="primary" link bg
-          >Forgot password</el-button
-        >
+      <div>
+        <el-checkbox v-model="checked" class="whitespace-normal!" size="large">
+          <el-text size="small" class="text-[#6b7078]! font-thin!"
+            >(Optional) It’s okay to send me emails with HIM updates, tips, and
+            special offers. You can opt out at any time.</el-text
+          >
+        </el-checkbox>
       </div>
 
-      <el-form-item style="margin-top: 10px">
+      <el-form-item class="my-3!">
         <el-button
           size="default"
           type="primary"
@@ -146,6 +141,33 @@ watch(
           >Register</el-button
         >
       </el-form-item>
+
+      <el-text
+        tag="p"
+        size="small"
+        class="text-[#6b7078]! font-thin! flex flex-wrap items-center"
+      >
+        By registering, you agree to HIM's
+        <el-link
+          :underline="false"
+          type="primary"
+          class="font-thin! text-xs! px-1!"
+          >Terms of Service
+        </el-link>
+        and
+        <el-link :underline="false" type="primary" class="font-thin!"
+          >Privacy Policy</el-link
+        >
+      </el-text>
+
+      <el-link
+        type="primary"
+        class="font-thin! text-xs!"
+        mt-4
+        :underline="false"
+        @click="navigateTo(`/auth/login`)"
+        >Already have an account?</el-link
+      >
     </el-form>
   </div>
 </template>

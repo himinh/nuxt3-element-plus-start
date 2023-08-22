@@ -93,16 +93,7 @@ watch(
         />
       </el-form-item>
 
-      <div class="flex justify-between">
-        <el-button
-          size="small"
-          type="primary"
-          link
-          bg
-          @click="navigateTo('/auth/register')"
-          >Register</el-button
-        >
-
+      <div class="flex justify-end">
         <el-button
           size="small"
           type="primary"
@@ -114,7 +105,7 @@ watch(
         >
       </div>
 
-      <el-form-item style="margin-top: 10px">
+      <el-form-item class="mt-2! mb-3!">
         <el-button
           size="default"
           type="primary"
@@ -125,7 +116,31 @@ watch(
           >Login</el-button
         >
       </el-form-item>
+
+      <el-text
+        tag="p"
+        size="small"
+        class="text-[#6b7078]! font-thin! flex flex-wrap items-center w-full"
+      >
+        Need an account?
+        <el-link
+          type="primary"
+          class="font-thin! text-xs! px-1!"
+          :underline="false"
+          @click="navigateTo(`/auth/register`)"
+          >Register?</el-link
+        >
+      </el-text>
     </el-form>
+
+    <!-- Login with social -->
+    <div class="mt-8">
+      <el-text class="mx-1 text-center" tag="p" size="small"
+        >Or connect using</el-text
+      >
+
+      <auth-login-with-social />
+    </div>
   </div>
 </template>
 

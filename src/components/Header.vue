@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const authStore = useAuthStore()
+const { firebaseLogout } = useFirebase()
 
 interface IMenu {
   name: string
@@ -47,6 +48,7 @@ const handleSelectMenu = (path: string) => navigateTo(path)
 const handleSelectUserOption = (path: string) => {
   // handle logout
   if (path === 'logout') {
+    firebaseLogout()
     authStore.logout()
     return
   }

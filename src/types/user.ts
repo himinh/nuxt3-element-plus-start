@@ -1,15 +1,18 @@
-import { Gender } from '~/enums/gender'
-import { Role } from '~/enums/role'
+import { AccountType } from '~/utils/enums/accountType'
+import { Gender } from '~/utils/enums/gender'
+import { Role } from '~/utils/enums/role'
 
 export type User = {
-  email: string
+  email: string | null
   phone: string
   username: string
+  accountType: AccountType
 
   _id: string
-  fullName: string
+  fullName: string | null
   gender: Gender | ''
-  dateOfBirth: number
+  dateOfBirth: number | null
+  avatar: string | null
 
   deviceID: string
   fcmTokens: string[]

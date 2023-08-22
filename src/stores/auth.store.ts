@@ -1,4 +1,11 @@
-import { AuthUser, Login, Register, ResetPassword, Tokens } from '~/types/auth'
+import {
+  AuthUser,
+  Login,
+  LoginWithSocial,
+  Register,
+  ResetPassword,
+  Tokens,
+} from '~/types/auth'
 import { authApi } from '~/api/auth.api'
 import { localStorageManager, showErrorMessage } from '~/utils/helpers'
 
@@ -19,6 +26,12 @@ export const useAuthStore = defineStore('auth', () => {
    */
   const login = async (inputs: Login) => {
     const data = await _asyncHandler(() => authApi.login(inputs))
+
+    if (data) _setAuth(data)
+  }
+
+  const loginWithSocial = async (inputs: LoginWithSocial) => {
+    const data = await _asyncHandler(() => authApi.loginWithSocial(inputs))
 
     if (data) _setAuth(data)
   }
@@ -174,5 +187,6 @@ export const useAuthStore = defineStore('auth', () => {
     forgotPassword,
     forgotPassSent,
     resetPassword,
+    loginWithSocial,
   }
 })

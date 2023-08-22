@@ -5,6 +5,14 @@ export type Login = {
   email: string
 }
 
+export type LoginWithSocial = {
+  socialID: string
+  deviceID: string | null
+} & Pick<
+  User,
+  'accountType' | 'dateOfBirth' | 'fullName' | 'gender' | 'avatar' | 'email'
+>
+
 export type Register = Login &
   Pick<User, 'fullName' | 'dateOfBirth' | 'gender' | 'username' | 'phone'>
 

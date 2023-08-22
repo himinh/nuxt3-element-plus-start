@@ -15,12 +15,15 @@ const toggleDark = useToggle(isDark)
       class="shadow-lg bg-white rounded px-8 py-5"
       :class="{ 'bg-dark-200!': isDark }"
     >
+      <!-- Header -->
       <h4
         class="text-[#337ecc] font-medium m-0 text-xl text-center"
         @click="toggleDark(!isDark)"
       >
         {{ $route.meta.title || 'Log in' }}
       </h4>
+
+      <!-- Login with form -->
       <slot />
     </div>
   </el-container>
