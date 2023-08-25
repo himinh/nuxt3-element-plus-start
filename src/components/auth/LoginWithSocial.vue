@@ -5,18 +5,35 @@ const { facebookLogin, googleLogin } = useFirebase()
 <template>
   <div class="flex justify-center my-4 w-full">
     <el-button class="btn-facebook w-full" @click="facebookLogin">
-      <img
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMtJREFUSEvtlLENwkAMRZ8HgUFgEoaADoaADoYIdCwROhgCBjGydEinKNgJuogUcRfl5Od7+Y4wcMnA/RkXQFVnwBZYAnPgCVxEZP/NROcbpOaPlkaViGxKAHZp+mavYoBrUmOAGliLyCsKSR9F9+Tdeh487zn0V4BNf46mt/cuQFUtLZYcq1PWsAJu6bn2VEWAI7AKJnV1lQC4uiKARXORbmCqbLmsbME+CXLT9N+PnLtX1TymZVI0AcJFmxT1UtTlx9Z2pvOijRbwBrLUYBkni8LYAAAAAElFTkSuQmCC"
-      />
-      <span>Facebook</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        style="fill: rgba(255, 255, 255, 1); transform: ; msfilter: "
+      >
+        <path
+          d="M20.26 7.8a4.82 4.82 0 0 0-3.93-2.44 3.91 3.91 0 0 0-2.54 1.09 10.58 10.58 0 0 0-1.52 1.71 11 11 0 0 0-1.63-1.72 4.39 4.39 0 0 0-2.88-1.08A5 5 0 0 0 3.7 8 11.49 11.49 0 0 0 2 14a7 7 0 0 0 .18 1.64A4.44 4.44 0 0 0 2.71 17a3.23 3.23 0 0 0 3 1.6c1.25 0 2.19-.56 3.3-2a26.4 26.4 0 0 0 2.21-3.6l.63-1.12c.06-.09.11-.18.16-.27l.15.25 1.79 3A14.77 14.77 0 0 0 16 17.63a3.38 3.38 0 0 0 2.55 1 3 3 0 0 0 2.54-1.23 2.2 2.2 0 0 0 .18-.28 4.1 4.1 0 0 0 .31-.63l.12-.35A6.53 6.53 0 0 0 22 15a9 9 0 0 0 0-1 11.15 11.15 0 0 0-1.74-6.2zm-10.12 3.56c-.64 1-1.57 2.51-2.37 3.61-1 1.37-1.51 1.51-2.07 1.51a1.29 1.29 0 0 1-1.15-.66 3.3 3.3 0 0 1-.39-1.7A9.74 9.74 0 0 1 5.54 9a2.8 2.8 0 0 1 2.19-1.47A3 3 0 0 1 10 8.74a14.07 14.07 0 0 1 1 1.31zm8.42 5.12c-.48 0-.85-.19-1.38-.83A34.87 34.87 0 0 1 14.82 12l-.52-.86c-.36-.61-.71-1.16-1-1.65a2.46 2.46 0 0 1 .17-.27c.94-1.39 1.77-2.17 2.8-2.17a3.12 3.12 0 0 1 2.49 1.66 10.17 10.17 0 0 1 1.37 5.34c-.04 1.31-.34 2.43-1.57 2.43z"
+        ></path>
+      </svg>
+
+      <span ml-1>Facebook</span>
     </el-button>
 
     <el-button class="btn-google w-full" @click="googleLogin">
-      <img
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAVBJREFUSEvdVbFRA0EQk4ogA4qADJpwBhQBGRSBMygCQpowGRRhQopYRjN7P3vnvXt+wMMMn7zff7fSanV6Ys8X91wffw9gZucALgDoruvD768AnkiW51SMbgdmdgTgMRTuqbkeAaUAzvplwXzUyU22fgfAmb93im/8f3V37L83JFc9MhmAmBe9y75rks+xiJndATjsMS9rK4CE/RbAam6QIylbALG6DRvWJO8XzGJnaQvwFrTdkjxtd5jZwwygSE3WbQE+w+YeQFyTYVXzGnWQusPM5gAqWUcAIHmQSJSdj+g6maLYuc4i1/dqyZDdrpMxWlJtB2LSMjzp2TSzdWuM7KBFJ00HDYBmMrnDzC49q6KKlTx60YsKdVGiIBaQtjEm4rs0j0ZhJ79nIJk1u3n0K3E9Ou2zXzSPbg3/zOXRHJRR+uBUc/lWXP8kd/4nwBd7CIkZnetNuwAAAABJRU5ErkJggg=="
-      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        style="fill: rgba(255, 255, 255, 1); transform: ; msfilter: "
+      >
+        <path
+          d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"
+        ></path>
+      </svg>
 
-      <span>Goolge</span>
+      <span ml-1>Goolge</span>
     </el-button>
   </div>
 </template>
@@ -27,10 +44,6 @@ const { facebookLogin, googleLogin } = useFirebase()
   font-size: 14px;
   outline: none;
   border: none;
-
-  > img {
-    color: #f0f0f0;
-  }
 }
 
 .btn-facebook {
